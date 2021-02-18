@@ -1,8 +1,11 @@
 #include <iostream>
-using namespace std;
 
 int main() {
+	int x = 5;
+	int y = 7;
+	std::cout << std::endl;
+	std::cout << x + y << " " << x*y;
+	std::cout << std::endl;
 
-	cout << "Hello World" << endl;
 	return 0;
 }
