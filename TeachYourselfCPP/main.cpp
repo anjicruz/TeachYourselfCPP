@@ -2,7 +2,7 @@
 int main() {
 	std::cout << "Hello There.\n";
 	std::cout << "The manipulator std::endl";
-	std::cout << "Writes a new line to the screen.";
+	std::cout << " writes a new line to the screen.";
 	std::cout << std::endl;
 	std::cout << "Here is a very big number:\t" << 70000;
 	std::cout << std::endl;
