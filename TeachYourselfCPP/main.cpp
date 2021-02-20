@@ -1,15 +1,20 @@
+// Demonstration of variables
 #include <iostream>
 
 int main() 
 {
 	using std::cout;
-	cout << "The size if an int:\t\t" << sizeof(int) << "bytes.\n";
-	cout << "The size if a short int is:\t" << sizeof(short) << " bytes.\n";
-	cout << "The size if a long int is:\t" << sizeof(long) << " bytes.\n";
-	cout << "The size if a char is:\t\t" << sizeof(char) << " bytes.\n";
-	cout << "The size if a float is:\t\t" << sizeof(float) << " bytes.\n";
-	cout << "The size if a double is:\t" << sizeof(double) << " bytes.\n";
-		cout << "The size if a bool is:\t\t" << sizeof(bool) << " bytes.\n";
-		
+	using std::endl;
+
+	unsigned short int Width = 5, Length;
+	Length = 10;
+
+
+
+	unsigned short int Area = (Width*Length);
+
+	cout << "Width: " << Width << endl;
+	cout << "Length: " << Length << endl;
+	cout << "Area: " << Area << endl;
 	return 0;
 }
