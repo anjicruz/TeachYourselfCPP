@@ -1,18 +1,10 @@
-// Demonstration of typedef keyword
 #include <iostream>
 
-typedef unsigned short int USHORT;
 int main() 
 {
 	using std::cout;
 	using std::endl;
-
-	unsigned short int smallNumber;
-	smallNumber = 65535;
-	cout << "small number: " << smallNumber << endl;
-	smallNumber++;
-	cout << "small number: " << smallNumber << endl;
-	smallNumber++;
-	cout << "small number: " << smallNumber << endl;
+	for (int i = 32; i < 128; i++)
+		cout << (char)i;
 	return 0;
 }
