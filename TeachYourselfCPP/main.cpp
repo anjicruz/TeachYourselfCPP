@@ -2,9 +2,11 @@
 
 int main() 
 {
-	using std::cout;
-	using std::endl;
-	for (unsigned char i = 32; i < 128; i++)
-		cout << i;
+	enum Days {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
+	Days today = Saturday; //Monday;
+	if (today == Sunday || today == Saturday)
+		std::cout << "\nGotta' love the weekends!\n";
+	else
+		std::cout << "\nBack to work.\n";
 	return 0;
 }
