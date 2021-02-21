@@ -1,17 +1,19 @@
-// Demonstration of variables
+// Demonstration of typedef keyword
 #include <iostream>
 
+typedef unsigned short int USHORT;
 int main() 
 {
+
 	using std::cout;
 	using std::endl;
 
-	unsigned short int Width = 5, Length;
+	USHORT Width = 5;
+	USHORT Length;
 	Length = 10;
 
 
-
-	unsigned short int Area = (Width*Length);
+	USHORT Area = (Width*Length);
 
 	cout << "Width: " << Width << endl;
 	cout << "Length: " << Length << endl;
