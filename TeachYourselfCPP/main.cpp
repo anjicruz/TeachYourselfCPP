@@ -2,11 +2,14 @@
 
 int main() 
 {
-	enum Days {Sunday, Monday, Tuesday, Wednesday, Thursday, Friday, Saturday};
-	Days today = Saturday; //Monday;
-	if (today == Sunday || today == Saturday)
-		std::cout << "\nGotta' love the weekends!\n";
-	else
-		std::cout << "\nBack to work.\n";
+	int myArray[5];
+	int i;
+	for (i = 0; i < 5; i++)
+	{
+		std::cout << "Value for myArray[ " << i << " ]: ";
+		std::cin >> myArray[i];
+	}
+	for (i = 0; i < 5; i++)
+		std::cout << i << ": " << myArray[i] << std::endl;
 	return 0;
 }
