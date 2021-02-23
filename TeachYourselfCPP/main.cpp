@@ -1,12 +1,17 @@
-// Writing Past the End of an Array
+// Creating a Multidimensional Array
 #include <iostream>
 using namespace std;
 
 int main() 
 {
-	enum WeekDays { Sun, Mon, Tue, Wed, Thu, Fri, Sat, DaysInWeek };
-	int ArrayWeek[DaysInWeek] = { 10,20,30,40,50,60,70 };
-
-	std::cout << "The value of Tuesday is: " << ArrayWeek[Tue]<< endl;
+	int SomeArray[2][5] = { {0,1,2,3,4},{0,2,4,6,8} };
+	for (int i = 0; i < 2; i++)
+	{
+		for (int j = 0; j < 5; j++)
+		{
+			cout << "SomeArray[" << i << "][" << j << "]: ";
+			cout << SomeArray[i][j] << endl;
+		}
+	}
 	return 0;
 }
