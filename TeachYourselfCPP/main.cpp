@@ -4,24 +4,9 @@ using namespace std;
 
 int main() 
 {
-	long TargetArray[25];
+	enum WeekDays { Sun, Mon, Tue, Wed, Thu, Fri, Sat, DaysInWeek };
+	int ArrayWeek[DaysInWeek] = { 10,20,30,40,50,60,70 };
 
-	int i;
-	for (i = 0; i < 25; i++)
-		TargetArray[i] = 10;
-
-	cout << "\nTest 1: \n";
-	cout << "TargetArray[0]: " << TargetArray[0] << endl;
-	cout << "TargetArray[24]: " << TargetArray[24] << endl << endl;
-
-	cout << "\nAttempting at assigning value beyond the upper-bound...";
-	for (i = 0; i < 25; i++)
-		TargetArray[i] = 20;
-
-	cout << "\nTest 2: \n";
-	cout << "TargetArray[0]: " << TargetArray[0] << endl;
-	cout << "TargetArray[24]: " << TargetArray[24] << endl;
-	cout << "TargetArray[25]: " << TargetArray[25] << endl << endl;
-
+	std::cout << "The value of Tuesday is: " << ArrayWeek[Tue]<< endl;
 	return 0;
 }
