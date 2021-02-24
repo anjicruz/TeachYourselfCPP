@@ -1,4 +1,4 @@
-// Using strcpy()
+// Using strncpy()
 #include <iostream>
 #include <string.h>
 
@@ -6,14 +6,14 @@ using namespace std;
 
 int main() 
 {
+	const int MaxLength = 80;
 	char String1[] = "No man is an island";
-	char String2[80] = { '\0' };
+	char String2[MaxLength+1] = { '\0' };
 
-	strcpy(String2, String1);
+	strncpy_s(String2, String1, MaxLength); // safer than strcpy
 
 	cout << "String1: " << String1 << endl;
 	cout << "String2: " << String2 << endl;
 
 	return 0;
 }
-error: This function or variable may be unsafe.Consider using safe - version instead.To disable deprecation, use _CRT_SECURE_NO_WARNINGS.
