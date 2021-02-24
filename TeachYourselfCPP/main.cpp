@@ -1,11 +1,19 @@
-// using cin.get()
+// Using strcpy()
 #include <iostream>
+#include <string.h>
+
+using namespace std;
 
 int main() 
 {
-	char buffer[80] = { '\0' };
-	std::cout << "Enter the string: ";
-	std::cin.get(buffer, 79);                                                            
-	std::cout << "Here's the buffer: " << buffer << std::endl;
+	char String1[] = "No man is an island";
+	char String2[80] = { '\0' };
+
+	strcpy(String2, String1);
+
+	cout << "String1: " << String1 << endl;
+	cout << "String2: " << String2 << endl;
+
 	return 0;
 }
+error: This function or variable may be unsafe.Consider using safe - version instead.To disable deprecation, use _CRT_SECURE_NO_WARNINGS.
