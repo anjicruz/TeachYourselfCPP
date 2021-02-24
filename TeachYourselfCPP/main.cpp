@@ -1,19 +1,25 @@
-// Using strncpy()
+// Initializing, Assigning (Copying), and Concatenating Strings Using std::string
 #include <iostream>
-#include <string.h>
-
-using namespace std;
+#include <string>
 
 int main() 
 {
-	const int MaxLength = 80;
-	char String1[] = "No man is an island";
-	char String2[MaxLength+1] = { '\0' };
+	std::string str1("This is a C++ string! ");
+	std::cout << "str1 equals = " << str1 << std::endl;
 
-	strncpy_s(String2, String1, MaxLength); // safer than strcpy
+	std::string str2;
+	str2 = str1;
+	std::cout << "Result of assignment, str2 = " << str2 << std::endl;
 
-	cout << "String1: " << String1 << endl;
-	cout << "String2: " << String2 << endl;
+	str2 = "Hello String!";
+
+	std::cout << "After overwriting contents, str2 = " << str2;
+	std::cout << std::endl << std::endl;
+
+	std::string strAddResult;
+	strAddResult = str1 + str2;
+
+	std::cout << "The result of str1 + str2 is = " << strAddResult << std::endl;
 
 	return 0;
 }
