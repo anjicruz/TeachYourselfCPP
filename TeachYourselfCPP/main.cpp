@@ -1,25 +1,17 @@
-// Initializing, Assigning (Copying), and Concatenating Strings Using std::string
+// Evaluating Complex Expressions
 #include <iostream>
-#include <string>
-
 int main() 
 {
-	std::string str1("This is a C++ string! ");
-	std::cout << "str1 equals = " << str1 << std::endl;
+	using std::cout;
+	using std::endl;
 
-	std::string str2;
-	str2 = str1;
-	std::cout << "Result of assignment, str2 = " << str2 << std::endl;
-
-	str2 = "Hello String!";
-
-	std::cout << "After overwriting contents, str2 = " << str2;
-	std::cout << std::endl << std::endl;
-
-	std::string strAddResult;
-	strAddResult = str1 + str2;
-
-	std::cout << "The result of str1 + str2 is = " << strAddResult << std::endl;
-
+	int a = 0, b = 0, x = 0, y = 35;
+	cout << "a: " << a << " b: " << b;
+	cout << " x:" << x << " y:" << y << endl;
+	a = 9;
+	b = 7;
+	y = x = a + b;
+	cout << "a: " << a << " b: " << b;
+	cout << " x:" << x << " y:" << y << endl;
 	return 0;
 }
