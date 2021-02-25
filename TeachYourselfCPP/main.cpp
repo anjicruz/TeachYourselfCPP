@@ -1,17 +1,20 @@
-// Evaluating Complex Expressions
+// A Demonstration of Subtraction and Integer Overflow
 #include <iostream>
+
 int main() 
 {
 	using std::cout;
 	using std::endl;
 
-	int a = 0, b = 0, x = 0, y = 35;
-	cout << "a: " << a << " b: " << b;
-	cout << " x:" << x << " y:" << y << endl;
-	a = 9;
-	b = 7;
-	y = x = a + b;
-	cout << "a: " << a << " b: " << b;
-	cout << " x:" << x << " y:" << y << endl;
+	unsigned int difference;
+	unsigned int bigNumber = 100;
+	unsigned int smallNumber = 50;
+
+	difference = bigNumber - smallNumber;
+	cout << "Difference is: " << difference;
+
+	difference = smallNumber - bigNumber;
+	cout << "\nNow difference is: " << difference << endl;
+
 	return 0;
 }
