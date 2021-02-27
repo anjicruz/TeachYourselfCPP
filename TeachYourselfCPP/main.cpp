@@ -1,4 +1,4 @@
-// demonstrates if statement with else clause
+// a complex nested if statement
 #include <iostream>
 
 int main() 
@@ -8,14 +8,25 @@ int main()
 	using std::cin;
 
 	int firstNumber, secondNumber;
-	cout << "Please enter a big number: ";
+	cout << "Enter two numbers.\nFirst: ";
 	cin >> firstNumber;
-	cout << "\nPlease enter a smaller number: ";
+	cout << "\nSecond: ";
 	cin >> secondNumber;
-	if (firstNumber > secondNumber)
-		cout << "\nThanks!\n\n";
-	else
-		cout << "\nThe first number is not bigger!\n\n";
+	cout << "\n";
 	
+	if (firstNumber >= secondNumber)
+	{
+		if ((firstNumber % secondNumber) == 0)
+		{
+			if (firstNumber == secondNumber)
+				cout << "They are the same.\n";
+			else
+				cout << "They are evenly divisible!\n";
+		}
+		else
+			cout << "They are not evenly divisible!\n";
+	}
+	else
+		cout << "The second one is larger!\n";
 	return 0;
 }
