@@ -1,25 +1,16 @@
-// demonstrates why braces are important in nested if statements
+// Relational Precedence
 #include <iostream>
 
 int main() 
 {
-	using std::cout;
-	using std::endl;
-	using std::cin;
+	using std::cout; using std::endl; using std::cin;
+	int x=3, y=10,z=10;
+	//if (x > 5 && y > 5 || z > 5)
+	if ((x > 5) && (y > 5 || z > 5))
+		cout << "TRUE" << endl;
+	else
+		cout << "not TRUE" << endl;
 
-	int x;
-	cout << "Enter a number less than 10 or greater than 100 : ";
-	cin >> x;
-	//cout << "\n";
-	if (x >= 100)
-	{
-		if (x > 100)
-			cout << "More than 100, Thanks!\n";
-	}
-		else
-			cout << "Less than 10, Thanks!\n";
-		
-
-	
+	cout << endl;
 	return 0;
 }
