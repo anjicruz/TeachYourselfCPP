@@ -1,19 +1,12 @@
-// Relational Precedence exercise 2
+// Relational Precedence exercise 4
 #include <iostream>
 
 int main() 
 {
 	using std::cout; using std::endl; using std::cin;
-	int a, b, c;
-	cout << "Please enter three numbers: \n";
-	cout << "a: ";
-	cin >> a;
-	cout << "\nb: ";
-	cin >> b;
-	cout << "\nc: ";
-	cin >> c;
+	int a=2, b=2, c;
 	if (c = (a - b))
-		cout << "a: " << a << " minus b: " << b << " equals c: " << endl;
+		cout << "The value of c is: " << c << endl;
 	return 0;
 }
-
+//no output.The value of c is : 0.
