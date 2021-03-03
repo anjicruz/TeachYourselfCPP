@@ -1,51 +1,48 @@
-// demonstrates variables scoped within a block
-
+﻿// A Demonstration of Passing by Value
 #include <iostream>
-void myFunc();
+
+void swap(int x, int y);
+
 
 int main() 
 {
 	using std::cout; using std::endl; using std::cin;
-
-
-	int x = 5;
-	cout << "\nIn main x is: " << x;
-
-	myFunc();
-
-	cout << "\nBack in main x is: " << x << endl;
+	int x = 5, y = 10;
+	cout << "Main. Before swap, x: " << x << " y: " << y << endl;
+	swap(x, y);
+	cout << "Main. After swap, x: " << x << " y: " << y << endl;
 	return 0;
 }
 
-void myFunc()
+void swap(int x, int y)
 {
 	using std::cout; using std::endl; using std::cin;
-	int x = 8;
-	cout << "\nIn myFunc, local x: " << x << endl;
-	{
-		cout << "\nIn block in myFunc, x is: " << x;
+	int temp;
+	cout << "Swap. Before swap, x: " << x << " y: " << y << endl;
 
-		int x = 9;
+	temp = x;
+	x = y;
+	y = temp;
 
-		cout << "\nVery local x: " << x;
-	}
-
-	cout << "\nOut of block, in myFunc, x:" << x << endl;
+	cout << "Main. After swap, x: " << x << " y: " << y << endl;
 }
-//This program begins with the initialization of a local variable, x, on line 10, in main().
-//The printout on line 11 verifies that x was initialized with the value 5. On line 13,
-//MyFunc() is called.
-//On line 21 within MyFunc(), a local variable, also named x, is initialized with the value
-//8. Its value is printed on line 22.
-//The opening brace on line 24 starts a block.The variable x from the function is printed
-//again on line 25. A new variable also named x, but local to the block, is created on line
-//27 and initialized with the value 9. The value of this newest variable x is printed on line
-//29. The local block ends on line 30, and the variable created on line 27 goes out of scope
-//and is no longer visible.
-//When x is printed on line 32, it is the x that was declared on line 21 within myFunc().
-//This x was unaffected by the x that was defined on line 27 in the block; its value is still 8.
-//On line 33, MyFunc() goes out of scope, and its local variable x becomes unavailable.
-//Execution returns to line 14. On line 15, the value of the local variable x, which was created
-//on line 10, is printed.It was unaffected by either of the variables defined in
-//MyFunc().Needless to say, this program would be far less confusing if these three variables
-//were given unique names!
+//Output ▼
+//Main. Before swap, x: 5 y: 10
+//Swap. Before swap, x: 5 y: 10
+//Swap. After swap, x: 10 y: 5
+//Main. After swap, x: 5 y: 10
+//Analysis ▼
+//This program initializes two variables in main() and then passes them to the swap()
+//function, which appears to swap them. When they are examined again in main(), however,
+//they are unchanged!
+//The variables are initialized on line 9, and their values are displayed on line 11. The
+//swap() function is called on line 12, and the variables are passed in.
+//Execution of the program switches to the swap() function where, on line 21, the values
+//are printed again. They are in the same order as they were in main(), as expected. On
+//138 LESSON 6: Organizing Code with Functions
+//lines 23–25, the values are swapped, and this action is confirmed by the printout on line
+//27. Indeed, while in the swap() function, the values are swapped. Execution then returns
+//to line 13, back in main(), where the values are no longer swapped.
+//As you’ve figured out, the values passed in to the swap() function are passed by value,
+//meaning that copies of the values are made that are local to swap(). These local variables
+//are swapped on lines 23–25, but the variables back in main() are unaffected.
