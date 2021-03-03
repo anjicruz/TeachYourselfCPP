@@ -46,3 +46,7 @@ void swap(int x, int y)
 //As you’ve figured out, the values passed in to the swap() function are passed by value,
 //meaning that copies of the values are made that are local to swap(). These local variables
 //are swapped on lines 23–25, but the variables back in main() are unaffected.
+
+//By definition, pass by value means you are making a copy in memory of the actual parameter's value that is passed in, a copy of the contents of the actual parameter. Use pass by value when when you are only "using" the parameter for some computation, not changing it for the client program.
+//
+//In pass by reference(also called pass by address), a copy of the address of the actual parameter is stored.Use pass by reference when you are changing the parameter passed in by the client program.
