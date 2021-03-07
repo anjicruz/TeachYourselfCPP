@@ -1,37 +1,28 @@
-﻿// A Demonstration of Recursion Using the Fibonacci Series - this is difficult to understand
+﻿// Looping with the Keyword goto
+
 #include <iostream>
-int fib(int n);
 
 int main() 
-{	using std::cout; using std::endl; using std::cin;
-	
-	int n, answer;
-	cout << "Enter number to find: ";
-	cin >> n;
+{
+	using std::cout; using std::endl; using std::cin;
+	int counter = 0;
+loop:
+	counter++;
+	cout << "Counter: " << counter << endl;
+	if (counter < 5)
+		goto loop;
 
-	cout << "\n" << endl;
-
-	answer = fib(n);
-
-	cout << answer << " is the " << n;
-	cout << "th Fibonacci number\n";
+	cout << "Complete. Counter: " << counter << endl;
 	return 0;
 }
-
-int fib(int n)
-{
-	std::cout << "Processing fib(" << n << ")...";
-
-	if (n < 3)
-	{
-		std::cout << "Return 1!\n";
-		return (1);
-	}
-	else
-	{
-		std::cout << "Call fib(" << n-2 << ") ";
-		inline int Double(int);
-		std::cout << "and fib(" << n - 1 << ").\n";
-		return(fib(n - 2) + fib(n - 1));
-	}
-}
+//On line 8, counter is initialized to zero.A label called loop is on line 9, marking the top
+//of the loop.counter is incremented and its new value is printed on line 11. The value of
+//counter is tested on line 12. If the value is less than 5, the if statement is true and the
+//goto statement is executed.This causes program execution to jump back to the loop
+//label on line 9. The program continues looping until counter is equal to 5, at which time
+//it “falls through” the loop and the final output is printed.
+//Why goto Is Shunned
+//As a rule, programmers avoid goto, and with good reason. goto statements can cause a
+//jump to any location in your source code, backward or forward.The indiscriminate use
+//of goto statements has caused tangled, miserable, impossible - to - read programs known as
+//spaghetti code.
