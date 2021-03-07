@@ -1,39 +1,37 @@
-﻿// A Demonstration of an Inline Function
+﻿// A Demonstration of Recursion Using the Fibonacci Series - this is difficult to understand
 #include <iostream>
-
-inline int Double(int);
+int fib(int n);
 
 int main() 
 {	using std::cout; using std::endl; using std::cin;
 	
+	int n, answer;
+	cout << "Enter number to find: ";
+	cin >> n;
 
+	cout << "\n" << endl;
 
-	int target;
+	answer = fib(n);
 
-	cout << "Enter a number to work with: ";
-	cin >> target;
-	cout << endl;
-
-	target = Double(target);
-	cout << "Target: " << target << endl;
-
-	target = Double(target);
-	cout << "Target: " << target << endl;
-
-	target = Double(target);
-	cout << "Target: " << target << endl;
+	cout << answer << " is the " << n;
+	cout << "th Fibonacci number\n";
 	return 0;
 }
 
-int Double(int target)
+int fib(int n)
 {
-	return 2 * target;
+	std::cout << "Processing fib(" << n << ")...";
+
+	if (n < 3)
+	{
+		std::cout << "Return 1!\n";
+		return (1);
+	}
+	else
+	{
+		std::cout << "Call fib(" << n-2 << ") ";
+		inline int Double(int);
+		std::cout << "and fib(" << n - 1 << ").\n";
+		return(fib(n - 2) + fib(n - 1));
+	}
 }
-//Analysis ▼
-//On line 4, Double() is declared to be an inline function taking an int parameter and
-//returning an int.The declaration is just like any other prototype except that the keyword inline is prepended just before the return value.This compiles into code that is the same as if you had written				target = 2 target; everywhere you entered target = Double(target); By the time your program executes, the instructions are already in place, compiled into
-//the.obj file.This saves a jump and return in the execution of the code at the cost of a larger program.
-//
-//The inline keyword is a hint to the compiler that you want the
-//function to be inlined.The compiler is free to ignore the hint and
-//make a real function call.
