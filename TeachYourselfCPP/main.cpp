@@ -1,77 +1,39 @@
-﻿// function overloading - A Demonstration of Function Polymorphism
+﻿// A Demonstration of an Inline Function
 #include <iostream>
 
-
-int Double(int);
-long Double(long);
-float Double(float);
-double Double(double);
-
-
+inline int Double(int);
 
 int main() 
 {	using std::cout; using std::endl; using std::cin;
-	int myInt = 6500;
-	long myLong = 65000;
-	float myFloat = 6.5F;
-	double myDouble = 6.5e20;
+	
 
-	int doubledInt;
-	long doubledLong;
-	float doubledFloat;
-	double doubledDouble;
 
-	cout << "myInt: " << myInt << endl;
-	cout << "myLong: " << myLong << endl;
-	cout << "myFloat: " << myFloat << endl;
-	cout << "myDouble: " << myDouble << endl;
+	int target;
 
-	doubledInt = Double(myInt);
-	doubledLong = Double(myLong);
-	doubledFloat = Double(myFloat);
-	doubledDouble = Double(myDouble);
+	cout << "Enter a number to work with: ";
+	cin >> target;
+	cout << endl;
 
-	cout << "doubledInt: " << doubledInt << endl;
-	cout << "doubledLong: " << doubledLong << endl;
-	cout << "doubledFloat: " << doubledFloat << endl;
-	cout << "doubledDouble: " << doubledDouble << endl;
+	target = Double(target);
+	cout << "Target: " << target << endl;
 
+	target = Double(target);
+	cout << "Target: " << target << endl;
+
+	target = Double(target);
+	cout << "Target: " << target << endl;
 	return 0;
 }
 
-int Double(int original)
+int Double(int target)
 {
-	std::cout << "In Double(int)\n";
-	return 2 * original;
-}
-
-long Double(long original)
-{
-	std::cout << "In Double(long)\n";
-	return 2 * original;
-}
-
-float Double(float original)
-{
-	std::cout << "In Double(float)\n";
-	return 2 * original;
-}
-
-double Double(double original)
-{
-	std::cout << "In Double(double)\n";
-	return 2 * original;
+	return 2 * target;
 }
 //Analysis ▼
-//The Double() function is overloaded with int, long, float, and double.The prototypes
-//are on lines 5–8, and the definitions are on lines 42–64.
-//Note that in this example, the statement using namespace std; has been added on line
-//10, outside of any particular function.This makes the statement global to this file, and
-//thus the namespace is used in all the functions declared within this file.
-//In the body of the main program, eight local variables are declared.On lines 14–17, four
-//of the values are initialized, and on lines 29–32, the other four are assigned the results of
-//passing the first four to the Double() function.When Double() is called, the calling
-//function does not distinguish which one to call; it just passes in an argument, and the
-//correct one is invoked.
-//The compiler examines the arguments and chooses which of the four Double() functions
-//to call.The output reveals that each of the four was called in turn, as you would expect.
+//On line 4, Double() is declared to be an inline function taking an int parameter and
+//returning an int.The declaration is just like any other prototype except that the keyword inline is prepended just before the return value.This compiles into code that is the same as if you had written				target = 2 target; everywhere you entered target = Double(target); By the time your program executes, the instructions are already in place, compiled into
+//the.obj file.This saves a jump and return in the execution of the code at the cost of a larger program.
+//
+//The inline keyword is a hint to the compiler that you want the
+//function to be inlined.The compiler is free to ignore the hint and
+//make a real function call.
