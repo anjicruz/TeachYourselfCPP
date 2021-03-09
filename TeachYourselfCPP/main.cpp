@@ -1,4 +1,4 @@
-﻿//	Demonstrates skipping the body the while loop when the condition is false.
+﻿//	Demonstrating a do...while Loop
 
 #include <iostream>
 
@@ -9,33 +9,27 @@ int main()
 	int counter;
 	cout << "How many hellos?: ";
 	cin >> counter;
-	while (counter>0)
+	do
 	{
 		cout << "Hello!\n";
 		counter--;
-	}
+	} while (counter > 0);
 	cout << "Counter is Output: " << counter << endl;
 	return 0;
-}
-//Output ▼
-//How many hellos ? : 2
-//Hello!
-//Hello!
-//Counter is OutPut : 0
-//How many hellos ? : 0
-//Counter is OutPut : 0
-//Analysis ▼
-//The user is prompted for a starting value on line 10. This starting value is stored in the
-//integer variable counter.The value of counter is tested on line 12 and decremented in
-//the body of the while loop.In the output, you can see that the first time through,
-//counter was set to 2, and so the body of the while loop ran twice.The second time
-//through, however, the 0 was entered.The value of counter was tested on line 12 and the
-//condition was false; counter was not greater than 0. The entire body of the while loop
-//was skipped, and Hello was never printed.
-//What if you want to ensure that Hello always prints at least once ? The while loop can’t
-//accomplish this because the if condition is tested before any printing is done.You can
-//force the issue with an if statement just before entering the while loop
-//if (counter < 1) // force a minimum value
-//	counter = 1;
-//but that is what programmers call a kludge(pronounced klooj to rhyme with stooge), an
-//ugly and inelegant solution.
+}/*
+Output ▼
+How many hellos ? 2
+Hello
+Hello
+Counter is : 0
+Analysis ▼
+Like the previous program, Listing 7.7 prints the word Hello to the console a specified
+number of times.Unlike the preceding program, however, this program will always print
+at least once.
+The user is prompted for a starting value on line 10, which is stored in the integer variable
+counter.In the do...while loop, the body of the loop is entered before the condition
+is tested, and, therefore, the body of the loop is guaranteed to run at least once.On
+line 14, the hello message is printed; on line 15, the counter is decremented; execution
+jumps to the top of the loop on line 13—otherwise, it falls through to line 17.
+The continue and break statements work in a do...while loop exactly as they do in a
+while loop.The only difference*/
