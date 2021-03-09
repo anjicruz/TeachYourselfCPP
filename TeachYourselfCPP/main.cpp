@@ -1,28 +1,41 @@
-﻿// Demonstrates a while true loop 
+﻿//	Demonstrates skipping the body the while loop when the condition is false.
 
 #include <iostream>
 
+
+
 int main() 
 {	using std::cout; using std::endl; using std::cin;
-	int counter = 0;
-
-	while (true)
+	int counter;
+	cout << "How many hellos?: ";
+	cin >> counter;
+	while (counter>0)
 	{
-		counter++;
-		if (counter > 10)
-			break;
+		cout << "Hello!\n";
+		counter--;
 	}
-	cout << "Counter: " << counter << endl;
+	cout << "Counter is Output: " << counter << endl;
 	return 0;
 }
 //Output ▼
-//Counter : 11
-//	Analysis ▼
-//	On line 9, a while loop is set up with a condition that can never be false.The loop increments
-//	the counter variable on line 11, and then on line 12 it tests to see whether counter
-//	has gone past 10. If it hasn’t, the while loop iterates.If counter is greater than 10, the
-//	break on line 13 ends the while loop, and program execution falls through to line 15,
-//where the results are printed.
-//This program works, but it isn’t pretty.This is a good example of using the wrong tool
-//for the job.The same thing can be accomplished by putting the test of counter’s value
-//where it belongs—in the while condition.
+//How many hellos ? : 2
+//Hello!
+//Hello!
+//Counter is OutPut : 0
+//How many hellos ? : 0
+//Counter is OutPut : 0
+//Analysis ▼
+//The user is prompted for a starting value on line 10. This starting value is stored in the
+//integer variable counter.The value of counter is tested on line 12 and decremented in
+//the body of the while loop.In the output, you can see that the first time through,
+//counter was set to 2, and so the body of the while loop ran twice.The second time
+//through, however, the 0 was entered.The value of counter was tested on line 12 and the
+//condition was false; counter was not greater than 0. The entire body of the while loop
+//was skipped, and Hello was never printed.
+//What if you want to ensure that Hello always prints at least once ? The while loop can’t
+//accomplish this because the if condition is tested before any printing is done.You can
+//force the issue with an if statement just before entering the while loop
+//if (counter < 1) // force a minimum value
+//	counter = 1;
+//but that is what programmers call a kludge(pronounced klooj to rhyme with stooge), an
+//ugly and inelegant solution.
