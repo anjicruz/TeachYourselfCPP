@@ -1,31 +1,37 @@
-﻿//	Null Statements in for Loops; Listing 7.11
+﻿//	Illustrating an Empty for Loop Statement
 
 #include <iostream>
 
 
 int main() 
-{	using std::cout; using std::endl; using std::cin;
+{	// using std::cout; using std::endl; using std::cin;
 	int counter = 0;
-
-	for (; counter < 5;)
+	int max;
+	std::cout << "How many hellos? ";
+	std::cin >> max;
+	for (;;) // a loop that doesn't end
 	{
-		counter++;
-		cout << "Looping! ";
+		if (counter < max) // test
+		{
+			std::cout << "Hello! " << std::endl;
+			counter++;
+		}
+		else
+			break;
 	}
-	
-	cout << "\nCounter: " << counter << endl;
 	return 0;
 }/*
 Output ▼
-Looping!Looping!Looping!Looping!Looping!
-Counter: 5.
-	Analysis ▼
-	You might recognize this as exactly like the while loop illustrated in Listing 7.8.On line
-	8, the counter variable is initialized.The for statement on line 10 does not initialize any
-	values, but it does include a test for counter < 5. No increment statement exists, so this
-	loop behaves exactly as if it had been written
-	while (counter < 5)
-		You can once again see that C++ gives you several ways to accomplish the same thing.
-		No experienced C++ programmer would use a for loop in this way shown in Listing
-		7.11, but it does illustrate the flexibility of the for statement.In fact, it is possible, using
-		break and continue, to create a for loop with none of the three statements.*/
+How many hellos ? 3
+Hello!
+Hello!
+Hello!
+Analysis ▼
+The for loop has now been pushed to its absolute limit.Initialization, test, and action
+have all been taken out of the for statement on line 12. The initialization is done on line
+8, before the for loop begins.The test is done in a separate if statement on line 14, and
+if the test succeeds, the action, an increment to counter, is performed on line 17. If the
+test fails, breaking out of the loop occurs on line 20.
+Although this particular program is somewhat absurd, sometimes a for (;;) loop or a
+while (true) loop is just what you’ll want.You’ll see an example of a more reasonable
+use of such loops when switch statements are discussed later in this lesson.*/
