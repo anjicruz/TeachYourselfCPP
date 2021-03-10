@@ -1,43 +1,36 @@
-﻿//	while Reexamined - Looping with while
+﻿//	Demonstrating Multiple Statements in for Loops
 
 #include <iostream>
 
 
 int main() 
-{	using std::cout; using std::endl; using std::cin;
-	int counter=0;
-
-	while (counter < 5)
-	{
-		counter++; // commenting this line does an endless loop
-		cout << "Looping!   ";
-	}
-
-	cout << "\nCounter: " << counter << endl;
+{	
+	using std::cout; using std::endl; using std::cin;
+	for (int i = 0, j=0; i < 3; i++, j++)
+		cout << "i: " << i << " j: " << j << endl;
 	return 0;
-}
-//Output ▼
-//Looping!Looping!Looping!Looping!Looping!
-//Counter: 5.
-//	Analysis ▼
-//	In this listing, you can see that three steps are occurring.First, the starting condition is
-//	set on line 8 : counter is initialized to 0. On line 10, the test of the condition occurs when
-//	counter is tested to see whether it is less than 5. Finally, the counter variable is incremented
-//	on line 12. This loop prints a simple message at line 13. As you can imagine,
-//	more important work could be done for each increment of the counter.
-//	A for loop combines the three steps into one statement.The three steps are initializing,
-//	testing, and incrementing.A for statement consists of the keyword for followed by a
-//	pair of parentheses.Within the parentheses are three statements separated by semicolons :
+}/*
+Output ▼
+	i : 0 j : 0
+	i : 1 j : 1
+	i : 2 j : 2
+	Analysis ▼
+	On line 9, two variables, i and j, are initialized with the value 0. A comma is used to
+	separate the two separate expressions.You can also see that these initializations are separated
+	from the test condition by the expected semicolon.
+	When this program executes, the test(i<3) is evaluated, and because it is true, the body
+	of the for statement is executed, where the values are printed.Finally, the third clause in
+	the for statement is executed.As you can see, two expressions are here as well.In this
+	case, both i and j are incremented.
+	After line 10 completes, the condition is evaluated again, and if it remains true, the
+	actions are repeated(i and j are again incremented), and the body of the loop is executed
+	again.This continues until the test fails, in which case the action statement is not
+	executed and control falls out of the loop.*/
+//The for Statement
+//The syntax for the for statement is as follows :
 //for (initialization; test; action)
-//{
-//	...
-//}
-//The first expression, initialization, is the starting conditions or initialization.Any
-//legal C++ statement can be put here, but typically this is used to create and initialize a
-//counting variable.The second expression, test, is the test, and any legal C++ expression
-//can be used here.This test serves the same role as the condition in the while loop.The
-//third expression, action, is the action that will take place.This action is typically the
-//Looping with the for Statement 181
-//7
-//LISTING 7.8 Continued
-//increment or decrement of a value, although any legal C++ statement can be put here.
+//statement;
+//The initialization statement is used to initialize the state of a counter or to otherwise
+//prepare for the loop.test is any C++ expression and is evaluated each time
+//through the loop.If test is true, the body of the for loop is executed and then the
+//action in the header is executed(typically the counter is incremented).
