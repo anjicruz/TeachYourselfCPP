@@ -1,37 +1,27 @@
-﻿//	Illustrating an Empty for Loop Statement
+﻿//	Empty for Loops, Illustrates the Null Statement in a for Loop 
 
 #include <iostream>
 
 
 int main() 
 {	// using std::cout; using std::endl; using std::cin;
-	int counter = 0;
-	int max;
-	std::cout << "How many hellos? ";
-	std::cin >> max;
-	for (;;) // a loop that doesn't end
-	{
-		if (counter < max) // test
-		{
-			std::cout << "Hello! " << std::endl;
-			counter++;
-		}
-		else
-			break;
-	}
+	for (int i = 0; i < 5; std::cout << "i: " << i++ << std::endl);
 	return 0;
 }/*
 Output ▼
-How many hellos ? 3
-Hello!
-Hello!
-Hello!
-Analysis ▼
-The for loop has now been pushed to its absolute limit.Initialization, test, and action
-have all been taken out of the for statement on line 12. The initialization is done on line
-8, before the for loop begins.The test is done in a separate if statement on line 14, and
-if the test succeeds, the action, an increment to counter, is performed on line 17. If the
-test fails, breaking out of the loop occurs on line 20.
-Although this particular program is somewhat absurd, sometimes a for (;;) loop or a
-while (true) loop is just what you’ll want.You’ll see an example of a more reasonable
-use of such loops when switch statements are discussed later in this lesson.*/
+i : 0
+	i : 1
+	i : 2
+	i : 3
+	i : 4
+	186 LESSON 7 : Controlling Program Flow
+	Analysis ▼
+	The for loop on line 8 includes three statements : The initialization statement establishes
+	the counter i and initializes it to 0. The condition statement tests for i<5, and the action
+	statement prints the value in i and increments it.
+	Nothing is left to do in the body of the for loop, so the null statement(;) is used.Note
+	that this is not a well - designed for loop : The action statement is doing far too much.
+	This would be better rewritten as
+	8 : for (int i = 0; i<5; i++)
+	9 : cout << “i : “ << i << endl;
+Although both do the same thing, this example is easier to understand.*/
