@@ -1,45 +1,131 @@
-﻿//	Demonstrating the switch Statement
-
+﻿//	Demonstrating a Forever Loop. Listing 7.17
+//Using a forever loop to manage user interaction
 #include <iostream>
 
-int main() 
-{//	using std::cout; using std::endl; using std::cin;
-	using namespace std;
-	unsigned short int number;
-	cout << "Enter a number between 1 and 5: ";
-	cin >> number;
-	switch (number)
+// prototypes
+int menu();
+void DoTaskOne();
+void DoTaskMany(int);
+
+
+
+int main()
+{	using std::cout; using std::endl; using std::cin;
+	bool exit = false;
+	for (;;)
 	{
-	case 0: cout << "Too small, sorry!";
-		break;
-	case 5: cout << "Good Job!" << endl;
-	case 4: cout << "Nice Pick!" << endl;
-	case 3: cout << "Excellent!" << endl;
-	case 2: cout << "Masterful!" << endl;
-	case 1: cout << "Incredible!" << endl;
-		break;
-	default: cout << "Too large!" << endl;
-		break;
+		int choice = menu();
+		switch (choice)
+		{
+			case(1):
+				DoTaskOne();
+				break;
+			case(2):
+				DoTaskMany(2);
+				break;
+			case(3):
+				DoTaskMany(3);
+				break;
+			case(4):
+				continue;
+				break;
+			case(5):
+				exit=true;
+				break;
+			default:
+				cout << "Please select again! " << endl;
+				break;
+		}
+		
+		if (exit = true)
+			break;
 	}
-	cout << endl;
 	return 0;
-}/*
-The switch Statement
-The syntax for the switch statement is as follows :
-switch (expression)
-{
-case valueOne: statement;
-case valueTwo: statement;
-	....
-case valueN: statement;
-default: statement;
 }
-The switch statement allows for branching on multiple values of expression.The
-expression is evaluated, and if it matches any of the case values, execution jumps
-to that line.Execution continues until either the end of the switch statement or a
-break statement is encountered.
-If expression does not match any of the case statements, and if there is a
-default statement, execution switches to the default statement, otherwise the
-switch statement ends.*/
 
+int menu()
+{	using std::cout; using std::endl; using std::cin;
+	int choice;
 
+	cout << " ****Menu**** " << endl << endl;
+	cout << "(1) Choice one." << endl;
+	cout << "(2) Choice two." << endl;
+	cout << "(3) Choice three." << endl;
+	cout << "(4) Redisplay Menu." << endl;
+	cout << "(5) Quit." << endl;
+	cout << ": ";
+	cin >> choice;
+	return choice;
+}
+
+void DoTaskOne()
+{	using std::cout; using std::endl; using std::cin;
+	cout << "Task One! " << endl;
+}
+
+void DoTaskMany(int which)
+{	using std::cout; using std::endl; using std::cin;
+	if (which == 2)
+		cout << "Task Two! " << endl;
+	else
+		cout << "Task Three! " << endl;
+}
+//Listing 7.17 returns to the for (;;) loop discussed earlier.These loops are also called
+//forever loops because they will loop forever if a break is not encountered.In Listing
+//7.17, the forever loop is used to put up a menu, solicit a choice from the user, act on the
+//choice, and then return to the menu.This continues until the user chooses to exit.
+//Some programmers like to write :
+//#define EVER ;;
+//for (EVER)
+//{
+//	// statements...
+//}
+//NOTE
+//A forever loop is a loop that does not have an exit condition.To exit the loop, a break
+//statement must be used.Forever loops are also known as eternal or infinite loops.
+
+//Output ▼
+//**** Menu ****
+//(1) Choice one.
+//(2) Choice two.
+//(3) Choice three.
+//(4) Redisplay menu.
+//(5) Quit.
+//	: 1
+//	Task One!
+//	**** Menu ****
+//	(1) Choice one.
+//	(2) Choice two.
+//	(3) Choice three.
+//	(4) Redisplay menu.
+//	(5) Quit.
+//	Controlling Flow with switch Statements 197
+//	7
+//	LISTING 7.17 Continued
+//	: 3
+//	Task Three!
+//	**** Menu ****
+//	(1) Choice one.
+//	(2) Choice two.
+//	(3) Choice three.
+//	(4) Redisplay menu.
+//	(5) Quit.
+//	: 5
+//Analysis ▼
+//This program brings together a number of concepts from this lesson and previous
+//lessons.It also shows a common use of the switch statement.
+//The forever loop begins on line 15. The menu() function is called, which prints the menu
+//to the screen and returns the user’s selection.The switch statement, which begins on line
+//18 and ends on line 38, switches on the user’s choice.
+
+//If the user enters 1, execution jumps to the case (1): statement on line 20. Line 21
+//switches execution to the DoTaskOne() function, which prints a message and returns.On
+//its return, execution resumes on line 22, where the break ends the switch statement, and
+//execution falls through to line 39. On line 40, the variable exit is evaluated to see
+//whether it is true.If it evaluates as true, the break on line 41 is executed and the for (;;)
+//loop ends; but if it evaluates false, execution resumes at the top of the loop on line 15.
+
+//Note that the continue statement on line 30 is redundant.If it were left out and the
+//break statement were encountered, the switch would end, exit would evaluate as false,
+//the loop would reiterate, and the menu would be reprinted.The continue does, however,
+//bypass the test of exit.
