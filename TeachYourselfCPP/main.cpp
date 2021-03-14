@@ -1,52 +1,55 @@
-﻿//	Demonstrating the Address-of Operator
-// and addresses of local variables
+﻿//	LISTING 8.2 Manipulating Data by Using Pointers
 #include <iostream>
 
+typedef unsigned short int USHORT;
+
 int main()
-{	
-	using std::cout; using std::endl; using std::cin;
-	unsigned short shortVar = 65;
-	unsigned long longVar = 65535;
-	long sVar = -65535;
+{	//using std::cout; using std::endl; using std::cin;
 
-	cout << "shortVar:\t" << shortVar;
-	cout << "\tAddress of shortVar:\t";
-	cout << &shortVar << endl;
+	using namespace std;
 
-	cout << "longVar:\t" << longVar;
-	cout << "\tAddress of longVar:\t";
-	cout << &longVar << endl;
+	USHORT myAge;
+	USHORT * pAge = 0;
 
-	cout << "sVar:\t\t" << sVar;
-	cout << "\tAddress of sVar:\t";
-	cout << &sVar << endl;
-	
+	myAge = 5;
+
+	cout << "myAge: " << myAge << endl;
+	pAge = &myAge; // assign address of myAge to pAge
+	cout << "*pAge: " << *pAge << endl << endl;
+
+	cout << "Setting *pAge = 7" << endl;
+	*pAge = 7; // sets myAge to 7
+
+	cout << "*pAge: " << *pAge << endl;
+	cout << "myAge: " << myAge << endl << endl;
+
+	cout << "Setting myAge = 9..." << endl;
+	myAge = 9;
+
+	cout << "myAge: " << myAge << endl;
+	cout << "*pAge: " << *pAge << endl;
+
 	return 0;
-}
-//address-of operator (&)
-//Output ▼
-//shortVar : 5 Address of shortVar : 0012FF7C
-//	longVar : 65535 Address of longVar : 0012FF78
-//	sVar : -65535 Address of sVar : 0012FF74
-//		   (Your printout might look different, especially the last column.)
-//	Analysis ▼
-//	Three variables are declared and initialized : an unsigned short on line 8, an unsigned
-//	long on line 9, and a long on line 10. Their values and addresses are printed on lines
-//	12–22.You can see on lines 14, 18, and 22 that the address - of operator (&) is used to get
-//	the address of the variable.This operator is simply placed on the front of the variable
-//	name to have the address returned.
-//	Line 12 prints the value of shortVar as 5, which is expected.In the first line of the output,
-//	you can see that its address is 0012FF7C when run on a Pentium(32 - bit) computer.
-//	This address is computer - specific and might change slightly each time the program is
-//	run.Your results will be different.
-//	What Is a Pointer ? 205
-//	8
-//	When you declare a variable, the compiler determines how much memory to allow based
-//	on the variable type.The compiler takes care of allocating memory and automatically
-//	assigns an address for it.For a long integer that is typically four bytes, for example, an
-//	address to four bytes of memory is used.
-//	 Pointers Explained
-//	Note that your compiler might insist on assigning new variables on
-//	four - byte boundaries. (Thus, longVar was assigned an address
-//		four bytes after shortVar even though shortVar needed only two
-//		bytes!)
+}/*
+Output ▼
+myAge : 5
+	* pAge : 5
+	Setting *pAge = 7...
+	*pAge : 7
+	myAge : 7
+	Setting myAge = 9...
+	myAge : 9
+	* pAge : 9
+	Analysis ▼
+	This program declares two variables : an unsigned short, myAge, and a pointer to an
+	unsigned short, pAge.myAge is assigned the value 5 on line 14; this is verified by the
+	printout on line 16.
+	On line 17, pAge is assigned the address of myAge.On line 18, pAge is dereferenced—
+	using the indirection operator (*)—and printed, showing that the value at the address that
+	pAge stores is the 5 stored in myAge.
+	On line 21, the value 7 is assigned to the variable at the address stored in pAge.This sets
+	myAge to 7, and the printouts on lines 23 and 24 confirm this.Again, you should notice
+	that the indirect access to the variable was obtained by using an asterisk—the indirection
+	operator in this context.
+	On line 27, the value 9 is assigned to the variable myAge.This value is obtained directly
+	on line 29 and indirectly(by dereferencing pAge) on line 30.*/
