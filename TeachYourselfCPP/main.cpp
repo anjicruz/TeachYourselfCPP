@@ -1,55 +1,70 @@
-﻿//	LISTING 8.2 Manipulating Data by Using Pointers
+﻿//	LISTING 8.3 Finding Out What Is Stored in Pointers
 #include <iostream>
 
-typedef unsigned short int USHORT;
 
 int main()
 {	//using std::cout; using std::endl; using std::cin;
-
 	using namespace std;
 
-	USHORT myAge;
-	USHORT * pAge = 0;
+	unsigned short int myAge = 5, yourAge = 10;
 
-	myAge = 5;
+	// a pointer
+	unsigned short int * pAge = &myAge;
 
-	cout << "myAge: " << myAge << endl;
-	pAge = &myAge; // assign address of myAge to pAge
-	cout << "*pAge: " << *pAge << endl << endl;
+	cout << "myAge:\t" << myAge 
+		<< "\t\tyourAge:  " << yourAge << endl;
 
-	cout << "Setting *pAge = 7" << endl;
-	*pAge = 7; // sets myAge to 7
+	cout << "&myAge: " << &myAge
+		<< "\t&yourAge:  " << &yourAge << endl;
 
-	cout << "*pAge: " << *pAge << endl;
-	cout << "myAge: " << myAge << endl << endl;
+	cout << "pAge:\t" << pAge << endl;
+	cout << "*pAge:\t" << *pAge << endl;
 
-	cout << "Setting myAge = 9..." << endl;
-	myAge = 9;
 
-	cout << "myAge: " << myAge << endl;
-	cout << "*pAge: " << *pAge << endl;
+	cout << "\nReassigning: pAge = &yourAge..." << endl << endl;
+	pAge = &yourAge; // reassign the pointer
 
+	cout << "myAge:\t" << myAge
+		<< "\t\tyourAge:  " << yourAge << endl;
+
+	cout << "&myAge: " << &myAge
+		<< "\t&yourAge:  " << &yourAge << endl;
+
+	cout << "pAge:\t" << pAge << endl;
+	cout << "*pAge:\t" << *pAge << endl;
+
+	cout << "\n&pAge:\t" << &pAge << endl;
+	
 	return 0;
 }/*
 Output ▼
-myAge : 5
-	* pAge : 5
-	Setting *pAge = 7...
-	*pAge : 7
-	myAge : 7
-	Setting myAge = 9...
-	myAge : 9
-	* pAge : 9
+myAge : 5 yourAge : 10
+	& myAge : 0012FF7C &yourAge : 0012FF78
+	pAge : 0012FF7C
+	*pAge : 5
+	Reassigning : pAge = &yourAge...
+	myAge : 5 yourAge : 10
+	& myAge : 0012FF7C &yourAge : 0012FF78
+	pAge : 0012FF78
+	*pAge : 10
+	& pAge : 0012FF74
+	(Your output might look different.)
+
 	Analysis ▼
-	This program declares two variables : an unsigned short, myAge, and a pointer to an
-	unsigned short, pAge.myAge is assigned the value 5 on line 14; this is verified by the
-	printout on line 16.
-	On line 17, pAge is assigned the address of myAge.On line 18, pAge is dereferenced—
-	using the indirection operator (*)—and printed, showing that the value at the address that
-	pAge stores is the 5 stored in myAge.
-	On line 21, the value 7 is assigned to the variable at the address stored in pAge.This sets
-	myAge to 7, and the printouts on lines 23 and 24 confirm this.Again, you should notice
-	that the indirect access to the variable was obtained by using an asterisk—the indirection
-	operator in this context.
-	On line 27, the value 9 is assigned to the variable myAge.This value is obtained directly
-	on line 29 and indirectly(by dereferencing pAge) on line 30.*/
+	On line 9, myAge and yourAge are declared to be variables of type unsigned short integer.
+	On line 12, pAge is declared to be a pointer to an unsigned short integer, and it is
+	initialized with the address of the variable myAge.
+	Lines 14–18 print the values and the addresses of myAge and yourAge.Line 20 prints the
+	contents of pAge, which is the address of myAge.You should notice that the output confirms
+	that the value of pAge matches the value of myAge’s address.Line 21 prints the
+	result of dereferencing pAge, which prints the value at pAge—the value in myAge, or 5.
+	This is the essence of pointers.Line 20 shows that pAge stores the address of myAge, and
+	line 21 shows how to get the value stored in myAge by dereferencing the pointer pAge.Be
+	certain that you understand this fully before you go on.Study the code and look at the
+	output.
+	On line 25, pAge is reassigned to point to the address of yourAge.The values and
+	addresses are printed again.The output shows that pAge now has the address of the variable
+	yourAge and that dereferencing obtains the value in yourAge.
+	Line 36 prints the address of pAge itself.Like any variable, it has an address, and that
+	address can be stored in a pointer. (Assigning the address of a pointer to another pointer
+		will be discussed shortly.)*/
