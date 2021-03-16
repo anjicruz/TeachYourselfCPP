@@ -1,23 +1,35 @@
-﻿//	LISTING 8.7 Creating a Stray Pointer
+﻿//	Listing 9.1 - Demonstrating the use of references
 
-typedef unsigned short int USHORT;
 #include <iostream>
 
 int main()
-{	using std::cout; using std::endl; using std::cin;
-	USHORT *pInt = new USHORT;
-	*pInt = 10;
-	cout << "*pInt: " << *pInt << endl;
-	delete pInt;
+{	
+	using std::cout; using std::endl; using std::cin;
+	int intOne;
+	int& rSomeRef = intOne;
 
-	long * pLong = new long;
-	*pLong = 90000;
-	cout << "*pLong: " << *pLong << endl;
+	intOne = 5;
+	cout << "intOne:" << intOne << endl;
+	cout << "rSomeRef: " << rSomeRef << endl;
 
-	*pInt = 20; // uh oh, this was deleted
-
-	cout << "*pInt: " << *pInt << endl;
-	cout << "*pLong: " << *pLong << endl;
-	delete pLong;
+	rSomeRef = 7;
+	cout << "intOne:" << intOne << endl;
+	cout << "rSomeRef: " << rSomeRef << endl;
+	
 	return 0;
-}
+}/*
+Output ▼
+intOne : 5
+rSomeRef : 5
+intOne : 7
+rSomeRef : 7
+Analysis ▼
+On line 8, a local integer variable, intOne, is declared.On line 9, a reference to an integer
+(int), rSomeRef, is declared and initialized to refer to intOne.As already stated, if
+you declare a reference but don’t initialize it, you receive a compile - time error.
+References must be initialized.
+On line 11, intOne is assigned the value 5. On lines 12 and 13, the values in intOneand
+rSomeRef are printed, and are, of course, the same.
+On line 15, 7 is assigned to rSomeRef.Because this is a reference, it is an alias for
+intOne, and thus the 7 is really assigned to intOne, as is shown by the printouts on lines
+16 and 17.*/
