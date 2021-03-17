@@ -4,7 +4,7 @@ typedef unsigned short int USHORT;
 #include <iostream>
 
 int main()
-{ // using namespace std;
+{ // using namespace std;;;
     USHORT * pInt = new USHORT;
     *pInt = 10;
     std::cout << "*pInt: " << *pInt << std::endl;
