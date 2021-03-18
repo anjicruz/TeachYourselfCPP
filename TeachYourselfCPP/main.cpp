@@ -1,4 +1,4 @@
-﻿//	Listing 9.1 - Demonstrating the use of references
+﻿//	LISTING 9.2 Taking the Address of a Reference
 
 #include <iostream>
 
@@ -6,30 +6,35 @@ int main()
 {
 	//using std::std::cout; using std::std::endl; using std::cin;
 	int intOne;
-	int& rSomeRef = intOne;
-
+	int &rSomeRef = intOne;
+	
 	intOne = 5;
 	std::cout << "intOne:" << intOne << std::endl;
 	std::cout << "rSomeRef: " << rSomeRef << std::endl;
 
-	rSomeRef = 7;
-	std::cout << "intOne:" << intOne << std::endl;
-	std::cout << "rSomeRef: " << rSomeRef << std::endl;
+	std::cout << "intOne:" << &intOne << std::endl;
+	std::cout << "rSomeRef: " << &rSomeRef << std::endl;
 
 	return 0;
 }/*
 Output ▼
 intOne : 5
 rSomeRef : 5
-intOne : 7
-rSomeRef : 7
+& intOne : 0x3500
+& rSomeRef : 0x3500
+	Because the final two lines print memory addresses that might be
+	unique to your computer or to a specific run of the program, your
+	output might differ.
 Analysis ▼
-On line 8, a local integer variable, intOne, is declared.On line 9, a reference to an integer
-(int), rSomeRef, is declared and initialized to refer to intOne.As already stated, if
-you declare a reference but don’t initialize it, you receive a compile - time error.
-References must be initialized.
-On line 11, intOne is assigned the value 5. On lines 12 and 13, the values in intOneand
-rSomeRef are printed, and are, of course, the same.
-On line 15, 7 is assigned to rSomeRef.Because this is a reference, it is an alias for
-intOne, and thus the 7 is really assigned to intOne, as is shown by the printouts on lines
-16 and 17.*/
+rSomeRef is again initialized as a reference to intOne.This time, the addresses of the two
+variables are printed in lines 15 and 16, and they are identical.
+C++ gives you no way to access the address of the reference itself because it is not
+meaningful as it would be if you were using a pointer or other variable.References are
+initialized when created, and they always act as a synonym for their target, even when
+the address - of operator is applied.*/
+//
+//Be careful to distinguish between the& symbol on line 9 of Listing 9.2, which declares a
+//reference to an integer named rSomeRef, and the& symbols on lines 15 and 16, which
+//return the addresses of the integer variable intOne and the reference rSomeRef.The compiler
+//knows how to distinguish between the two uses by the context in which they are
+//being used.
