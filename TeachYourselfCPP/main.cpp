@@ -1,21 +1,25 @@
-﻿//Listing 9.7 - Returning multiple values from a function
+﻿//Listing 9.8 Returning multiple values from a function
+// using references
 
 #include <iostream>
 
 using namespace std;
-short Factor(int n, int* pSquared, int* pCubed);
+
+enum ERR_CODE { SUCCESS, ERROR };
+
+ERR_CODE Factor(int, int&, int&);
 
 int main()
 {	//using std::cout; using std::endl; using std::cin;
 	int number, squared, cubed;
-	short error;
+	ERR_CODE result;
 
 	cout << "Enter a number(0-20): ";
 	cin >> number;
 
-	error = Factor(number, &squared, &cubed);
+	result = Factor(number, squared, cubed);
 
-	if (!error)
+	if (result==SUCCESS)
 	{
 		cout << "number: " << number << endl;
 		cout << "square: " << squared << endl;
@@ -26,43 +30,30 @@ int main()
 	return 0;
 }
 
-short Factor(int n, int* pSquared, int* pCubed)
+ERR_CODE Factor(int n, int &rSquared, int& rCubed)
 {
 	short Value = 0;
 	if (n > 20)
 		Value = 1;
 	else
 	{
-		*pSquared = n * n;
-		*pCubed = n * n * n;
+		rSquared = n * n;
+		rCubed = n * n * n;
 		Value = 0;
 	}
-	return Value;
+	return SUCCESS;
 }/*
 Output ▼
 Enter a number(0 - 20) : 3
 number : 3
 square : 9
 cubed : 27
-Returning Multiple Values 243
-9
+
+LISTING 9.8 Continued
 Analysis ▼
-On line 10, number, squared, and cubed are defined as short integers.number is assigned
-a value based on user input on line 14. On line 16, this numberand the addresses of
-squaredand cubed are passed to the function Factor().
-On line 32, Factor() examines the first parameter, which is passed by value.If it is
-greater than 20 (the maximum value this function can handle), it sets the return value,
-Value, to a simple error value.Note that the return value from Function() is reserved
-for either this error value or the value 0, indicating all went well, and note that the function
-returns this value on line 40.
-The actual values needed, the squareand cube of number, are not returned by using the
-return mechanism; rather, they are returned by changing the pointers that were passed
-into the function.On lines 36 and 37, the pointers are assigned their return values.These
-values are assigned to the original variables by the use of indirection.You know this by
-the use of the dereference operator (*) with the pointer names.On line 38, Value is
-assigned a success value, and on line 40, it is returned.
-244 LESSON 9: Exploiting References
-Because passing by reference or by pointer allows uncontrolled
-access to object attributes and methods, you should pass the
-minimum required for the function to do its job.This helps to
-ensure that the function is safer to useand more easily understandable.*/
+Listing 9.8 is identical to Listing 9.7, with two exceptions.The ERR_CODE enumeration
+makes the error reporting a bit more explicit on lines 36 and 41, as well as the error handling
+on line 22.
+The larger change, however, is that Factor() is now declared to take references to
+squaredand cubed rather than to pointers.This makes the manipulation of these parameters
+far simplerand easier to understand.*/
