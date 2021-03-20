@@ -1,55 +1,45 @@
-﻿//	Listing 9.3 - Reassigning a reference
-
+﻿//Listing 9.4 - Demonstrates passing by value
 #include <iostream>
 
+void swap(int x, int y);
+
+
 int main()
-{	//using std::std::cout; using std::std::endl; using std::cin;
-	int intOne;
-	int &rSomeRef = intOne;
-	
-	intOne = 5;
-	std::cout << "intOne:" << intOne << std::endl;
-	std::cout << "rSomeRef: " << rSomeRef << std::endl;
-
-	std::cout << "intOne:" << &intOne << std::endl;
-	std::cout << "rSomeRef: " << &rSomeRef << std::endl;
-
-	int intTwo = 8;
-	rSomeRef = intTwo; // reassignment happens here, not what you think!
-	std::cout << "\nintOne: " << intOne << std::endl;
-	std::cout << "intTwo: " <<  intTwo << std::endl;
-	std::cout << "rSomeref: " <<  rSomeRef << std::endl;
-	std::cout << "&intOne: " <<  &intOne << std::endl;
-	std::cout << "&intTwo: " <<  &intTwo << std::endl;
-	std::cout << ":&someRef: " <<  &rSomeRef << std::endl;
+{
+	using std::cout; using std::endl; using std::cin;
+	int x = 5, y = 10;
+	cout << "Main. Before swap, x: " << x << " y: " << y << endl;
+	swap(x, y);
+	cout << "Main. After swap, x: " << x << " y: " << y << endl;
 	return 0;
-}/*
-Attempting to Reassign References(Not!)
-Reference variables cannot be reassigned.Even experienced C++ programmers can be
-confused by what happens when you try to reassign a reference.Reference variables are
-always aliases for their target.What appears to be a reassignment turns out to be the
-assignment of a new value to the target.Listing 9.3 illustrates this fact.
+}
 
+void swap(int x, int y)
+{
+	using std::cout; using std::endl; using std::cin;
+	int temp;
+	cout << "Swap. Before swap, x: " << x << " y: " << y << endl;
+
+	temp = x;
+	x = y;
+	y = temp;
+
+	cout << "Main. After swap, x: " << x << " y: " << y << endl;
+}/*
 Output ▼
-intOne : 5
-rSomeRef : 5
-& intOne : 0012FEDC
-& rSomeRef : 0012FEDC
-intOne : 8
-intTwo : 8
-rSomeRef : 8
-& intOne : 0012FEDC
-& intTwo : 0012FEE0
-& rSomeRef : 0012FEDC
+Main.Before swap, x: 5 y : 10
+Swap.Before swap, x : 5 y : 10
+Swap.After swap, x : 10 y : 5
+Main.After swap, x : 5 y : 10
+238 LESSON 9 : Exploiting References
 Analysis ▼
-On lines 8 and 9, an integer variable and a reference to an integer are declared.The integer
-is assigned the value 5 on line 11, and the valuesand their addresses are printed on
-lines 12–15.
-On line 17, a new variable, intTwo, is created and initialized with the value 8. On line
-18, the programmer tries to reassign rSomeRef to be an alias to the variable intTwo, but
-that is not what happens.What actually happens is that rSomeRef continues to act as an
-alias for intOne, so this assignment is equivalent to the following :
-intOne = intTwo;
-Sure enough, when the values of intOneand rSomeRef are printed(lines 19–21), they are
-the same as intTwo.In fact, when the addresses are printed on lines 22–24, you see that
-rSomeRef continues to refer to intOne and not intTwo.*/
+This program initializes two variables in main() and then passes them to the swap()
+function, which appears to swap them.When they are examined again in main(), they
+are unchanged!
+The problem here is that xand y are being passed to swap() by value.That is, local
+copies were made in the function.These local copies were changedand then thrown
+away when the function returnedand its local storage was deallocated.What is preferable
+is to pass xand y by reference, which changes the source values of the variable
+rather than a local copy.
+Two ways to solve this problem are possible in C++: You can make the parameters of
+swap() pointers to the original values or you can pass in references to the original values.*/
