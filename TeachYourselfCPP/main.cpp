@@ -1,57 +1,68 @@
-﻿//LISTING 9.6 swap() Rewritten with References
+﻿//Listing 9.7 - Returning multiple values from a function
 
 #include <iostream>
 
 using namespace std;
-void swap(int &x, int &y);
+short Factor(int n, int* pSquared, int* pCubed);
 
 int main()
 {	//using std::cout; using std::endl; using std::cin;
-	int x = 5, y = 10;
+	int number, squared, cubed;
+	short error;
 
-	cout << "Main. Before swap, x: " << x << " y: " << y << endl;
+	cout << "Enter a number(0-20): ";
+	cin >> number;
 
-	//swap(&x,&y); from Listing 9.5
-	swap(x, y);
+	error = Factor(number, &squared, &cubed);
 
-	cout << "Main. After swap, x: " << x << " y: " << y << endl;
-
-
+	if (!error)
+	{
+		cout << "number: " << number << endl;
+		cout << "square: " << squared << endl;
+		cout << "cubed: " << cubed << endl;
+	}
+	else
+		cout << "Error encountered!!" << endl;
 	return 0;
 }
 
-void swap(int &rx, int &ry)
-{	//using std::cout; using std::endl; using std::cin;
-	int temp;
-
-	cout << "Swap. Before swap, rx: " << rx << " ry: " << ry << endl;
-
-
-	temp = rx;
-	rx = ry;
-	ry = temp;
-
-
-	cout << "Swap. After swap, rx: " << rx << " ry: " << ry << endl;
-
+short Factor(int n, int* pSquared, int* pCubed)
+{
+	short Value = 0;
+	if (n > 20)
+		Value = 1;
+	else
+	{
+		*pSquared = n * n;
+		*pCubed = n * n * n;
+		Value = 0;
+	}
+	return Value;
 }/*
 Output ▼
-Main.Before swap, x:5 y : 10
-Swap.Before swap, rx : 5 ry : 10
-Swap.After swap, rx : 10 ry : 5
-Main.After swap, x : 10, y : 5
+Enter a number(0 - 20) : 3
+number : 3
+square : 9
+cubed : 27
+Returning Multiple Values 243
+9
 Analysis ▼
-Just as in the example with pointers, two variables are declared on line 10, and their values
-are printed on line 12. On line 15, the function swap() is called, but note that xand
-y, not their addresses, are passed.The calling function simply passes the variables.
-When swap() is called, program execution jumps to line 23, where the variables are
-identified as references.The values from the variables are printed on line 27, but note
-that no special operators are required.These variables are aliases for the original variables
-and can be used as such.
-On lines 30–32, the values are swapped, and then they’re printed on line 35. Program
-execution jumps back to the calling function, and on line 17, the values are printed in
-main().Because the parameters to swap() are declared to be references, the variables
-from main() are passed by reference, and thus their changed values are what is seen in
-main() as well.As you can see from this listing, references provide the convenienceand
-ease of use of normal variables, but with the powerand pass - by - reference capability of
-pointers!*/
+On line 10, number, squared, and cubed are defined as short integers.number is assigned
+a value based on user input on line 14. On line 16, this numberand the addresses of
+squaredand cubed are passed to the function Factor().
+On line 32, Factor() examines the first parameter, which is passed by value.If it is
+greater than 20 (the maximum value this function can handle), it sets the return value,
+Value, to a simple error value.Note that the return value from Function() is reserved
+for either this error value or the value 0, indicating all went well, and note that the function
+returns this value on line 40.
+The actual values needed, the squareand cube of number, are not returned by using the
+return mechanism; rather, they are returned by changing the pointers that were passed
+into the function.On lines 36 and 37, the pointers are assigned their return values.These
+values are assigned to the original variables by the use of indirection.You know this by
+the use of the dereference operator (*) with the pointer names.On line 38, Value is
+assigned a success value, and on line 40, it is returned.
+244 LESSON 9: Exploiting References
+Because passing by reference or by pointer allows uncontrolled
+access to object attributes and methods, you should pass the
+minimum required for the function to do its job.This helps to
+ensure that the function is safer to useand more easily understandable.*/
