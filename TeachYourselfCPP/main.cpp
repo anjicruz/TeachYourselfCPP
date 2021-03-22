@@ -5,22 +5,10 @@
 int main()
 {
 	using namespace std;
-	unsigned short shortVar = 5;
-	unsigned long longVar = 65535;
-	long sVar = -65535;
+	unsigned short int howOld = 50;
+	unsigned short int* pAge = &howOld;
 
-	cout << "shortVar:\t" << shortVar;
-	cout << "\tAddress of shortVar:\t";
-	cout << &shortVar << endl;
-
-	cout << "longVar:\t" << longVar;
-	cout << "\tAddress of longVar:\t";
-	cout << &longVar << endl;
-
-	cout << "sVar:\t\t" << sVar;
-	cout << "\tAddress of sVar:\t";
-	cout << &sVar << endl;
-
+	cout << pAge << endl;
 	return 0;
 }
 
