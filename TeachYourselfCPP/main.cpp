@@ -1,47 +1,36 @@
-﻿// LISTING 8.5 Allocating, Using, and Deleting Pointers
+﻿// Listing 9.1 - Demonstrating the use of references
 #include <iostream>
 
 int main()
 {	
 	using namespace std;
-	int localVariable = 5;
-	int* pLocal = &localVariable; // assigns pointer pLocal to localVariable
-	int* pHeap = new int;
-	*pHeap = 7;
-	cout << "localVariable: " << localVariable << endl;
-	cout << "*pLocal: " << *pLocal << endl; // prints pLocal
-	cout << "*pHeap: " << *pHeap << endl; // prints pHeap
-	delete pHeap;
-	pHeap = new int;
-	*pHeap = 9;
-	cout << "*pHeap: " << *pHeap << endl; // prints pHeap
-	delete pHeap;
+	int intOne;
+	int &rSomeRef = intOne;
+
+	intOne = 5;
+	cout << "intOne: " << intOne << endl;
+	cout << "rSomeRef: " << rSomeRef << endl; // prints rSomeRef.rSomeRef is a reference to an integer.The reference is initialized to refer to int.
+
+	rSomeRef = 7;
+	cout << "intOne: " << intOne << endl;
+	cout << "rSomeRef: " << rSomeRef << endl;
 	return 0;
 }/*
 Output ▼
-localVariable : 5
-* pLocal : 5
-* pHeap : 7
-* pHeap : 9
+intOne : 5
+rSomeRef : 5
+intOne : 7
+rSomeRef : 7
 Analysis ▼
-Line 7 declares and initializes a local variable ironically called localVariable.Line 8
-declares a pointer called pLocal and initializes it with the address of the local variable.
-On line 9, a second pointer called pHeap is declared; however, it is initialized with the
-result obtained from calling new int.This allocates space on the free store for an int,
-which can be accessed using the pHeap pointer.This allocated memory is assigned the
-value 7 on line 10.
-Lines 11–13 print a few values.Line 11 prints the value of the local variable
-(localVariable), line 12 prints the value pointed to by the pLocal pointer, and line 13
-prints the value pointed to by the pHeap pointer.You should notice that, as expected, the
-values printed on lines 11 and 12 match.In addition, line 13 confirms that the value
-assigned on line 10 is, in fact, accessible.
-On line 14, the memory allocated on line 9 is returned to the free store by a call to
-delete.This frees the memory and disassociates the pointer from that memory.pHeap is
-now free to be used to point to other memory.It is reassigned on lines 15 and 16, and
-line 17 prints the result.Line 18 restores that memory to the free store.
-Although line 18 is redundant(the end of the program would have returned that memory),
-it is a good idea to free this memory explicitly.If the program changes or is
-extended, having already taken care of this step is beneficial.*/
+On line 8, a local integer variable, intOne, is declared.On line 9, a reference to an integer
+(int), rSomeRef, is declared and initialized to refer to intOne.As already stated, if
+you declare a reference but don’t initialize it, you receive a compile - time error.
+References must be initialized.
+On line 11, intOne is assigned the value 5. On lines 12 and 13, the values in intOneand
+rSomeRef are printed, and are, of course, the same.
+On line 15, 7 is assigned to rSomeRef.Because this is a reference, it is an alias for
+intOne, and thus the 7 is really assigned to intOne, as is shown by the printouts on lines
+16 and 17.*/
 
 
 
