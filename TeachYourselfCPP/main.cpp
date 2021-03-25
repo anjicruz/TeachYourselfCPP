@@ -1,4 +1,4 @@
-﻿// LISTING 9.2 Taking the Address of a Reference
+﻿// Listing 9.3 - Reassigning a reference
 #include <iostream>
 
 int main()
@@ -13,25 +13,31 @@ int main()
 
 	cout << "&intOne: " << &intOne << endl;
 	cout << "&rSomeRef: " << &rSomeRef << endl;
+
+	int intTwo = 8;
+	rSomeRef - intTwo;
+	cout << "\nintOne: " << intOne << endl;
+	cout << "intTwo: " << intTwo << endl;
+	cout << "rSomeRef: " << rSomeRef << endl; 
+	cout << "&intOne: " << &intOne << endl;
+	cout << "&intTwo: " << &intTwo << endl;
+	cout << "&rSomeRef: " << &rSomeRef << endl;
+
+
 	return 0;
 }/*
-Output ▼
-intOne : 5
-rSomeRef : 5
-& intOne : 0x3500
-& rSomeRef : 0x3500
-234 LESSON 9 : Exploiting References
-Because the final two lines print memory addresses that might be
-unique to your computer or to a specific run of the program, your
-output might differ.
 Analysis ▼
-rSomeRef is again initialized as a reference to intOne.This time, the addresses of the two
-variables are printed in lines 15 and 16, and they are identical.
-C++ gives you no way to access the address of the reference itself because it is not
-meaningful as it would be if you were using a pointer or other variable.References are
-initialized when created, and they always act as a synonym for their target, even when
-the address - of operator is applied.*/
-
+On lines 8 and 9, an integer variableand a reference to an integer are declared.The integer
+is assigned the value 5 on line 11, and the valuesand their addresses are printed on
+lines 12–15.
+On line 17, a new variable, intTwo, is createdand initialized with the value 8. On line
+18, the programmer tries to reassign rSomeRef to be an alias to the variable intTwo, but
+that is not what happens.What actually happens is that rSomeRef continues to act as an
+alias for intOne, so this assignment is equivalent to the following :
+intOne = intTwo;
+Sure enough, when the values of intOneand rSomeRef are printed(lines 19–21), they are
+the same as intOne.In fact, when the addresses are printed on lines 22–24, you see that
+rSomeRef continues to refer to intOne and not intTwo.*/
 
 
 
