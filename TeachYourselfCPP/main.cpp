@@ -13,7 +13,7 @@ int main()
 
 	cout << "&intOne: " << &intOne << endl;
 	cout << "&rSomeRef: " << &rSomeRef << endl;
-
+	//
 	int intTwo = 8;
 	rSomeRef - intTwo;
 	cout << "\nintOne: " << intOne << endl;
