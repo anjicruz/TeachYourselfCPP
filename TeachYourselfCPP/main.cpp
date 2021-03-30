@@ -1,4 +1,4 @@
-﻿//Listing 9.9 - Passing pointers to objects
+﻿//LISTING 9.10 Passing Pointer to a Constant Object
 
 #include <iostream>
 
@@ -9,11 +9,18 @@ class SimpleCat
 		SimpleCat(); // constructor
 		SimpleCat(SimpleCat&); // copy constructor
 		~SimpleCat(); // destructor
+
+		int GetAge() const { return itsAge; }
+		void setAge(int age) { itsAge = age; }
+
+	private:
+		int itsAge;
 };
 
 SimpleCat::SimpleCat()
 {
 	cout << "Simple Cat constructor..." << endl;
+	itsAge = 1;
 }
 
 SimpleCat::SimpleCat(SimpleCat&)
@@ -26,76 +33,73 @@ SimpleCat::~SimpleCat()
 	cout << "Simple Cat destructor..." << endl;
 }
 
-SimpleCat FunctionOne(SimpleCat theCat);
-SimpleCat* FunctionTwo(SimpleCat *theCat);
+const SimpleCat* const FunctionTwo(const SimpleCat * const theCat);
+
 
 int main()
 {
 	cout << "Making a cat..." << endl;
 	SimpleCat Frisky;
-	cout << "Calling FunctionOne..." << endl;
-	FunctionOne(Frisky);
+	cout << "Frisky is ";
+	cout << Frisky.GetAge();
+	cout << " years old" << endl;
+	int age = 5;
+	Frisky.setAge(age);
+	cout << "Frisky is ";
+	cout << Frisky.GetAge();
+	cout << " years old" << endl;
 	cout << "Calling FunctionTwo..." << endl;
 	FunctionTwo(&Frisky);
+	cout << "Frisky is ";
+	cout << Frisky.GetAge();
+	cout << " years old" << endl;
 	return 0;
 }
 
-// FunctionOne, passes by value
-SimpleCat FunctionOne(SimpleCat theCat)
-{
-	cout << "Function One. Returning..." << endl;
-	return theCat;
-}
-
 // FunctionTwo, passes by reference
-SimpleCat* FunctionTwo(SimpleCat *theCat)
+const SimpleCat* const FunctionTwo(const SimpleCat * const theCat)
+
 {
 	cout << "Function Two. Returning..." << endl;
+	cout << "Frisky is now " << theCat->GetAge();
+	cout << " years old" << endl;
+	// theCat->SetAge(8); const!
 	return theCat;
 }/*
 Output ▼
 Making a cat...
-Simple Cat Constructor...
-Calling FunctionOne...
-Simple Cat Copy Constructor...
-Function One.Returning...
-Simple Cat Copy Constructor...
-Simple Cat Destructor...
-Simple Cat Destructor...
+Simple Cat constructor...
+Frisky is 1 years old
+Frisky is 5 years old
 Calling FunctionTwo...
-Function Two.Returning...
+FunctionTwo.Returning...
+Frisky is now 5 years old
+Frisky is 5 years old
 Simple Cat Destructor...
 
 Analysis ▼
-Listing 9.9 creates the SimpleCat object and then calls two functions.The first function
-receives the Cat by value and then returns it by value.The second one receives a pointer
-to the object, rather than the object itself, and returns a pointer to the object.
-The very simplified SimpleCat class is declared on lines 6–12.The constructor, copy
-constructor, and destructor all print an informative message so that you can tell when
-they’ve been called.
+SimpleCat has added two accessor functions, GetAge() on line 13, which is a const
+function, and SetAge() on line 14, which is not a const function.It has also added the
+member variable, itsAge, on line 17.
+The constructor, copy constructor, and destructor are still defined to print their messages.
+The copy constructor is never called, however, because the object is passed by reference
+and so no copies are made.On line 42, an object is created, and its default age is printed,
+starting on line 43.
 
-On line 34, main() prints out a message that is shown on the first line of the output.On
-line 35, a SimpleCat object is instantiated.This causes the constructor to be called, and
-the output from the constructor is seen on the second line of output.
-On line 36, main() reports that it is calling FunctionOne, which creates the third line of
-output.Because FunctionOne() is called passing the SimpleCat object by value, a copy
-of the SimpleCat object is made on the stack as an object local to the called function.
-This causes the copy constructor to be called, which creates the fourth line of output.
-Program execution jumps to line 46 in the called function, which prints an informative
-message, the fifth line of output.The function then returns, and returns the SimpleCat
-object by value.This creates yet another copy of the object, calling the copy constructor
-and producing the sixth line of output.
+On line 47, itsAge is set using the accessor SetAge, and the result is printed on line 48.
+FunctionOne is not used in this program, but FunctionTwo() is called.FunctionTwo()
+has changed slightly; the parameterand return value are now declared, on line 36, to take
+a constant pointer to a constant objectand to return a constant pointer to a constant
+object.
 
-The return value from FunctionOne() is not assigned to any object, and so the temporary
-object created for the return is thrown away, calling the destructor, which produces the
-seventh line of output.Because FunctionOne() has ended, its local copy goes out of
-scopeand is destroyed, calling the destructorand producing the eighth line of output.
-Program execution returns to main(), and FunctionTwo() is called, but the parameter is
-passed by reference.No copy is produced, so there’s no output.FunctionTwo() prints
-the message that appears as the tenth line of outputand then returns the SimpleCat
-object, again by reference, and so again produces no calls to the constructor or destructor.
-Finally, the program endsand Frisky goes out of scope, causing one final call to the
-destructorand printing the final line of output.The net effect of this is that the call to
-FunctionOne(), because it passed the Frisky by value, produced two calls to the copy
-constructorand two to the destructor, whereas the call to FunctionTwo() produced none.*/
+Because the parameter and return value are still passed by reference, no copies are made
+and the copy constructor is not called.The object being pointed to in FunctionTwo(),
+however, is now constant, and thus cannot call the non - const method, SetAge().If the
+call to SetAge() on line 66 was not commented out, the program would not compile.
+
+LISTING 9.10 Continued
+Note that the object created in main() is not constant, and Frisky can call SetAge().
+The address of this nonconstant object is passed to FunctionTwo(), but because
+FunctionTwo()’s declaration declares the pointer to be a constant pointer to a constant
+object, the object is treated as if it were constant!*/
 
