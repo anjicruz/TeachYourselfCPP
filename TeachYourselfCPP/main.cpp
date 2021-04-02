@@ -1,26 +1,33 @@
-﻿// Reassigning a reference
+﻿// Listing 9.5 Demonstrates passing by reference
 #include <iostream>
 
+using namespace std;
+void swap(int x, int y);
 int main()
 {
-	int intOne;
-	int& rSomeRef = intOne; // rSomeRef is a reference to an integer.The reference (rSomeref) is initialized to refer to intOne.” The space before the reference operator is required.
-	intOne = 5;
-	std::cout << "intOne: " << intOne << std::endl;
-	std::cout << "rSomeRef: " << rSomeRef << std::endl;
+    // using namespace std;
+    int x = 5, y = 10;
+    // same results on main
+    cout << "Main. Before swap, x: " << x << " y: " << y << endl;
+    swap(x, y);
+    cout << "Main. After swap, x: " << x << " y: " << y << endl;
+    return 0;
+}
 
-	std::cout << "&intOne: " << &intOne << std::endl;
-	std::cout << "&rSomeRef: " << &rSomeRef << std::endl;
-	
-	int intTwo = 8; // not what you think!
-	rSomeRef = intTwo;
-	std::cout << "\nintOne: " << intOne << std::endl;
-	std::cout << "intTwo: " << intTwo << std::endl;
-	std::cout << "rSomeRef: " << rSomeRef << std::endl;
-	std::cout << "&intOne: " << &intOne << std::endl; 
-	std::cout << "&intTwo: " << &intTwo << std::endl; 
-	std::cout << "&rSomeRef: " << &rSomeRef << std::endl;
+void swap(int x, int y) // Here is the swap function
+{
+    int temp;
 
-	return 0;
+    cout << "Swap. Before swap, x: " << x << " y: " << y << endl;
+    /*The problem here is that x and y are being passed to swap() by value.That is, local
+    copies were made in the function.These local copies were changed and then thrown
+    away when the function returned and its local storage was deallocated.*/
+    temp = x; //temp = 5
+    x = y; // 5=10
+    y = temp; // Swap.After swap, x : 10 y : 5
+    cout << "Swap. After swap, x: " << x << " y: " << y << endl;
 }/*
-The values of intOne, intTwoand rSomeRef is 8, but the memory address of& intOneand& rSomeRef are identical.The memory address of of& intTwo is different.You cannot Reassigning a reference*/
+Main.Before swap, x: 5 y : 10
+Swap.Before swap, x : 5 y : 10
+Swap.After swap, x : 10 y : 5
+Main.After swap, x : 5 y : 10*/
