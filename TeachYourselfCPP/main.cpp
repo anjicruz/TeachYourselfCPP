@@ -1,31 +1,43 @@
-﻿// Listing 9.5 Demonstrates passing by reference
+﻿// listing 9.6 swap() Rewritten with References
 #include <iostream>
 
 using namespace std;
-void swap(int *x, int *y); // On line 5, the prototype of swap() is changed to indicate that its two parameters will be pointers to int rather than int variables.
-int main()
-{
-    // using namespace std;
-    int x = 5, y = 10;
+
+void swap(int &x, int &y); 
+
+int main( )
+{     
+    int x = 5, y = 10; // Just as in the example with pointers, two variables are declared on line 10, and their values are printed on line 12. On line 15, the function swap() is called, but note that x and y, not their addresses, are passed.The calling function simply passes the variables.
 
     cout << "Main. Before swap, x: " << x << " y: " << y << endl; 
-    swap(&x, &y); // When swap() is called on line 12, the addresses of x and y are passed as the arguments.You can see that the addresses are passed because the address - of operator (&) is being used.
+
+
+    swap(x,y);  
+
     cout << "Main. After swap, x: " << x << " y: " << y << endl;
+
+
     return 0;
 }
 
-void swap(int* px, int* py)
+void swap(int &rx, int &ry) // When swap() is called, program execution jumps to line 23, where the variables are identified as references.
 {
-    int temp; // On line 19, a local variable, temp, is declared in the swap() function.temp need not be a pointer; it will just hold the value of *px(that is, the value of x in the calling function) for the life of the function.After the function returns, temp is no longer needed. // the pointers from Swap. Before swap are the same from Main. Before swap
-    cout << "Swap. Before swap, *px: " << *px << " *py: " << *py << endl;
+    int temp;
 
-    temp = *px; // On line 22, temp is assigned the value at px.
-    *px = *py; // On line 23, the value at px is assigned to the value at py.
-    *py = temp;  // On line 24, the value stashed in temp(that is, the original value at px) is put into py.The net effect of this is that the values in the calling function, whose address was passed to swap(), are, in fact, swapped.
-    cout << "Swap. After swap, *px: " << *px << " *py: " << *py << endl;
+    cout << "Swap. Before swap, rx: " << rx << " ry: " << ry << endl; // The values from the variables are printed on line 27, but note that no special operators are required.These variables are aliases for the original variables and can be used as such.
+
+
+    temp = rx;
+    rx = ry;
+    ry = temp;
+
+
+    cout << "Swap. After swap, rx: " << rx << " ry: " << ry << endl;
 }/*
-Main.Before swap, x: 5 y : 10
-Swap.Before swap, * px : 5 * py : 10
-Swap.After swap, * px : 10 * py : 5
-Main.After swap, x : 10 y : 5*/
-
+On lines 30–32, the values are swapped, and then they’re printed on line 35. Program
+execution jumps back to the calling function, and on line 17, the values are printed in
+main().Because the parameters to swap() are declared to be references, the variables
+from main() are passed by reference, and thus their changed values are what is seen in
+main() as well.As you can see from this listing, references provide the convenience and
+ease of use of normal variables, but with the powerand pass - by - reference capability of
+pointers!*/
