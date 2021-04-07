@@ -1,5 +1,5 @@
-﻿//Listing 9.9 - Passing pointers to objects  Although passing a pointer to FunctionTwo() is more efficient, it is dangerous. FunctionTwo() is not meant to be allowed to change the SimpleCat object it is passed, yet it is given the address of the SimpleCat.This seriously exposes the original object to change and defeats the protection offered in passing by value. Passing by value is like giving a museum a photograph of your masterpiece instead of the real thing.If vandals mark it up, there is no harm done to the original.Passing by reference is like sending your home address to the museum and inviting guests to come overand look at the real thing.The solution is to pass a pointer to a constant SimpleCat. Doing so prevents calling any non - const method on SimpleCat, and thus protects the object from change. Passing a constant reference allows your “guests” to see the original “painting, ” but not to alter it in any way.
-
+﻿//Listing 9.11 - Passing references to objects
+// Because you know the object will never be null, it would be easier to work within the function if a reference were passed in, rather than a pointer.Listing 9.11 illustrates this approach.
 #include <iostream>
 
 using namespace std;
@@ -33,35 +33,27 @@ Simplecat::~Simplecat()
 	cout << "Simple Cat Destructor..." << endl;
 }
 
-const Simplecat * const FunctionTwo
-(const Simplecat * const theCat);
-// On line 42, an object is created, and its default age is printed, starting on line 43. On line 47, itsAge is set using the accessor SetAge, and the result is printed on line 48. FunctionOne is not used in this program, but FunctionTwo() is called.FunctionTwo() has changed slightly; the parameterand return value are now declared, on line 36, to take a constant pointer to a constant objectand to return a constant pointer to a constant object.
+const Simplecat & FunctionTwo (const Simplecat & theCat);
+
 int main()
 {
 	cout << "Making a cat..." << endl;
 	Simplecat Frisky;
-	cout << "Frisky is ";
-	cout << Frisky.GetAge();
-	cout << " years old!" << endl;
+	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
 	int age = 5;
 	Frisky.setAge(age);
-	cout << "Frisky is ";
-	cout << Frisky.GetAge();
-	cout << " years old!" << endl;
+	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
 	cout << "Calling FunctionTwo..." << endl;
-	FunctionTwo(&Frisky); // Object is passed as reference
-	cout << "Frisky is "; // Frisky is 5 years old!
-	cout << Frisky.GetAge();
-	cout << " years old!" << endl;
+	FunctionTwo(Frisky);
+	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
 	return 0;
 }
 
-// functionTwo, passes a const pointer
-const Simplecat* const FunctionTwo
-	(const Simplecat* const theCat)
+// functionTwo, passes a ref to a const pointer
+const Simplecat & FunctionTwo(const Simplecat & theCat)
 {
 	cout << "Function Two. Returning..." << endl;
-	cout << "Frisky is now " << theCat->GetAge();
+	cout << "Frisky is now " << theCat.GetAge();
 	cout << " years old!" << endl;
 	return theCat;
 }/*
@@ -75,14 +67,16 @@ FunctionTwo.Returning...
 Frisky is now 5 years old
 Frisky is 5 years old
 Simple Cat Destructor...*/
-
-/* Because the parameter and return value are still passed by reference, no copies are made
-and the copy constructor is not called.The object being pointed to in FunctionTwo(),
-however, is now constant, and thus cannot call the non - const method, SetAge().If the
-call to SetAge() on line 66 was not commented out, the program would not compile.
-
-Note that the object created in main() is not constant, and Frisky can call SetAge().
-The address of this nonconstant object is passed to FunctionTwo(), but because
-FunctionTwo()’s declaration declares the pointer to be a constant pointer to a constant
-object, the object is treated as if it were constant!*/
+//
+//Analysis ▼
+//The output is identical to that produced by Listing 9.10.The only significant change is
+//that FunctionTwo() now takes and returns a reference to a constant object.Once again,
+//working with references is somewhat simpler than working with pointers, and the same
+//savings and efficiency are achieved, as well as the safety provided by using const.
+//
+//C++ programmers do not usually differentiate between “constant reference to a
+//SimpleCat object”and “reference to a constant SimpleCat object.” References
+//themselves can never be reassigned to refer to another object, and so they are
+//always constant.If the keyword const is applied to a reference, it is to make constant
+//the object referred to.
 
