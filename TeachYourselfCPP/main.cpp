@@ -1,82 +1,40 @@
-﻿//Listing 9.11 - Passing references to objects
-// Because you know the object will never be null, it would be easier to work within the function if a reference were passed in, rather than a pointer.Listing 9.11 illustrates this approach.
+﻿// 9.12 Returning a Reference to a Nonexistent Object
 #include <iostream>
-
-using namespace std;
-class Simplecat
-{
-public:
-	Simplecat(Simplecat&); // copy constructor
-	Simplecat(); // constructor
-	~Simplecat(); // destructor
-	// SimpleCat has added two accessor functions, GetAge() on line 13, which is a const function, and SetAge() on line 14, which is not a const function.It has also added the member variable, itsAge, on line 17.
-	int GetAge() const { return itsAge; }
-	void setAge(int age) { itsAge = age; }
-	// The constructor, copy constructor, and destructor are still defined to print their messages. The copy constructor is never called, however, because the object is passed by reference and so no copies are made.
-private:
-	int itsAge;
-};
-
-Simplecat::Simplecat()
-{
-	cout << "Simple Cat Constructor..." << endl;
-	itsAge = 1; // Frisky is 1 years old
-}
-
-Simplecat::Simplecat(Simplecat&)
-{
-	cout << "Simple Cat Copy Constructor..." << endl;
-}
-
-Simplecat::~Simplecat()
-{
-	cout << "Simple Cat Destructor..." << endl;
-}
-
-const Simplecat & FunctionTwo (const Simplecat & theCat);
+int& GetInt();
 
 int main()
 {
-	cout << "Making a cat..." << endl;
-	Simplecat Frisky;
-	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
-	int age = 5;
-	Frisky.setAge(age);
-	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
-	cout << "Calling FunctionTwo..." << endl;
-	FunctionTwo(Frisky);
-	cout << "Frisky is " << Frisky.GetAge() << " years old!" << endl;
+	int& rInt = GetInt();
+	std::cout << "rInt= " << rInt << std::endl;
 	return 0;
 }
-
-// functionTwo, passes a ref to a const pointer
-const Simplecat & FunctionTwo(const Simplecat & theCat)
+int & GetInt()
 {
-	cout << "Function Two. Returning..." << endl;
-	cout << "Frisky is now " << theCat.GetAge();
-	cout << " years old!" << endl;
-	return theCat;
+	int nLocalInt = 25;
+	return nLocalInt;
 }/*
-Output ▼
-Making a cat...
-Simple Cat constructor...
-Frisky is 1 years old
-Frisky is 5 years old
-Calling FunctionTwo...
-FunctionTwo.Returning...
-Frisky is now 5 years old
-Frisky is 5 years old
-Simple Cat Destructor...*/
+Returning Out - of - Scope Object References
+After C++ programmers learn to pass by reference, they have a tendency to go hog - wild.
+It is possible, however, to overdo it. Remember that a reference is always an alias to
+some other object.If you pass a reference into or out of a function, be certain to ask
+yourself, “What is the object I’m aliasing, and will it still exist every time it’s used ? ”
+Listing 9.12 illustrates the danger of returning a reference to an object that no longer
+exists.*/
+
 //
-//Analysis ▼
-//The output is identical to that produced by Listing 9.10.The only significant change is
-//that FunctionTwo() now takes and returns a reference to a constant object.Once again,
-//working with references is somewhat simpler than working with pointers, and the same
-//savings and efficiency are achieved, as well as the safety provided by using const.
+//Output ▼
+//Compile error : Attempting to return a reference to a local object!
+// rInt = -858993460
 //
-//C++ programmers do not usually differentiate between “constant reference to a
-//SimpleCat object”and “reference to a constant SimpleCat object.” References
-//themselves can never be reassigned to refer to another object, and so they are
-//always constant.If the keyword const is applied to a reference, it is to make constant
-//the object referred to.
+//This program won’t compile on the Borland compiler.It will compile
+//on Microsoft compilers, perhaps with warnings; however, it
+//should be noted that it is a poor coding practice.
+//
+//The body of GetInt() declares a local object of type int and initializes its value to 25. It
+//then returns that local object by reference.Some compilers are smart enough to catch
+//this error and don’t let you run the program.Others let you run the program, with unpredictable
+//results.
+//When GetInt() returns, the local object, nLocalInt, is destroyed(painlessly, I assure
+//	you).The reference returned by this function is an alias to a nonexistent object, and this
+//	is a bad thing.
 
