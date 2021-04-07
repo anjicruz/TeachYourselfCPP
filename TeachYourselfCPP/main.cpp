@@ -49,7 +49,7 @@ int main()
 	cout << Frisky.GetAge();
 	cout << " years old!" << endl;
 	cout << "Calling FunctionTwo..." << endl;
-	FunctionTwo(&Frisky);
+	FunctionTwo(&Frisky); // Object is passed as reference
 	cout << "Frisky is "; // Frisky is 5 years old!
 	cout << Frisky.GetAge();
 	cout << " years old!" << endl;
