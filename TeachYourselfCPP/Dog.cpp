@@ -1,15 +1,14 @@
-﻿//Listing 11.2 Using a derived object
+﻿// LISTING 11.3 Constructors and Destructors Called
 #include <iostream>
 using namespace std;
 
 enum  BREED { GOLDEN, CAIRN, DANDIE, SHETLAMD, DOBERMAN, LAB };
-// On lines 8–28, the Mammal class is declared (all its functions are inline to save space here).
 class Mammal
 {
 public:
 	// constructors
-	Mammal(): itsAge(2), itsWeight(5) {}
-	~Mammal(){}
+	Mammal();
+	~Mammal();
 
 	// accessors
 	int GetAge() const { return itsAge; }
@@ -19,20 +18,20 @@ public:
 
 	// other methods
 	void Speak() const { cout << "Mammal sound.\n"; }
-	void Sleep() const { cout << "shhhhh. I'm sleeping.\n"; }
+	void Sleep() const { cout << "Shhhhh. I'm sleeping.\n"; }
 
 protected:
 	int itsAge;
 	int itsWeight;
 };
-// On lines 30–48, the Dog class is declared as a derived class of Mammal.Thus, by these declarations, all Dogs have an age, a weight, and a breed.As stated before, the age and weight come from the base class, Mammal.
+
 class Dog : public Mammal // class derivedClass : accessType baseClass
 {
 public:
 
 	// constructors
-	Dog() :itsBreed(GOLDEN) {}
-	~Dog() {}
+	Dog();
+	~Dog();
 
 	// accessors
 	BREED GetBreed() const { return itsBreed; }
@@ -45,8 +44,29 @@ public:
 private:
 	BREED itsBreed;
 };
+// Listing 11.3 is like Listing 11.2, except that on lines 48–69 the constructors and destructors now print to the screen when called.Mammal’s constructor is called, and then Dog’s. At that point, the Dog fully exists, and its methods can be called.
+Mammal::Mammal():
+itsAge(3),
+itsWeight(5)
+{
+	std::cout << "Mammal constructor..." << std::endl;
+}
 
-// On line 52, a Dog is declared: Fido. Fido inherits all the attributes of a Mammal, as well as all the attributes of a Dog.Thus, Fido knows how to WagTail(), but he also knows how to Speak() and Sleep().On lines 53 and 54, Fido calls two of these methods from the Mammal base class.On line 55, the GetAge() accessor method from the base class is also called successfully.
+Mammal::~Mammal()
+{
+	std::cout << "Mammal destructor..." << std::endl;
+}
+
+Dog::Dog():
+itsBreed(GOLDEN)
+{
+	std::cout << "Dog constructor..." << std::endl;
+}
+
+Dog::~Dog()
+{
+	std::cout << "Dog destructor..." << std::endl;
+}
 int main()
 {
 	Dog Fido;
@@ -55,3 +75,4 @@ int main()
 	cout << "Fido is " << Fido.GetAge() << " years old." << endl;
 	return 0;
 }
+// When Fido goes out of scope, Dog’s destructor is called, followed by a call to Mammal’s destructor.You see that this is confirmed in the output from the listing.
