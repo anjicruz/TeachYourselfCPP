@@ -1,56 +1,36 @@
 ﻿// LISTING 11.5 Overriding a Base Class Method in a Derived Class
 #include <iostream>
-using namespace std;
-
-enum  BREED { GOLDEN, CAIRN, DANDIE, SHETLAMD, DOBERMAN, LAB };
-
+using std::cout;
+// All the extra methods and data have been removed from these classes. On lines 8 and 9, the Mammal class declares the overloaded Move() methods.
 class Mammal
 {
 public:
-	// constructors
-	Mammal() { cout << "Mammal constructor...\n"; }
-	~Mammal() { cout << "Mammal destructor...\n"; }
-
-	// other methods Looking at the Mammal class, you can see a method called Speak() defined on line 15.
-	void Speak() const { cout << "Mammal sound.\n"; }
-	void Sleep() const { cout << "Shhhhh. I'm sleeping.\n"; }
-	
-
+	void Move() const { cout << "Mammal move one step.\n"; }
+	void Move(int distance) const
+	{
+		cout << "Mammal move ";
+		cout << distance << " steps.\n";
+	}
 protected:
 	int itsAge;
 	int itsWeight;
 };
-// The Dog class declared on lines 23–37 inherits from Mammal (line 24), and, therefore, has access to this Speak() method.The Dog class, however, overrides this method on line 33, causing Dog objects to say Woof! when the Speak() method is called.
-class Dog : public Mammal // class derivedClass : accessType baseClass
+// On line 22, Dog overrides the version of Move() with no parameters.
+class Dog : public Mammal
 {
 public:
-	Dog() { cout << "Dog constructor...\n"; }
-	~Dog() { cout << "Dog destructor...\n"; }
-
-	// Other methods
-	void WagTail() const { cout << "Tail Wagging...\n"; }
-	void BegForFood() const { cout << "Begging for Food...\n"; }
-	void Speak() const { cout << "Woof!\n"; }
-	
-private:
-	BREED itsBreed;
+	void Move() const { cout << "Dog move 5 steps.\n"; }
 };
-// On line 44, the Mammal object calls its Speak() method; then on line 45, the Dog object calls its Speak() method.The output reflects that the correct methods were called.The bigAnimal made a mammal sound and Fido woofed.Finally, the two objects go out of scopeand the destructors are called.
 
+// These methods are invoked on lines 30–32, and the output reflects this as executed.
 int main()
 {
 	Mammal bigAnimal;
 	Dog Fido;
-	bigAnimal.Speak();
-	Fido.Speak();
+	bigAnimal.Move();
+	bigAnimal.Move(2);
+	Fido.Move();
+	// Fido.Move(10);
 	return 0;
-}/*
-Output ▼
-Mammal constructor...
-Mammal constructor...
-Dog constructor...
-Mammal sound!
-Woof!
-Dog destructor...
-Mammal destructor...
-Mammal destructor...*/
+}
+// Line 33, however, is commented out because it causes a compile - time error.After you override one of the methods, you can no longer use any of the base methods of the same name. So, although the Dog class could have called the Move(int) method if it had not overridden the version of Move() without parameters, now that it has done so, it must override both if it wants to use both.Otherwise, it hides the method that it doesn’t override. This is reminiscent of the rule that if you supply any constructor, the compiler no longer supplies a default constructor. The rule is this : After you override any overloaded method, all the other overrides of that method are hidden.If you want them not to be hidden, you must override them all. It is a common mistake to hide a base class method when you intend to override it by forgetting to include the keyword const. const is part of the signature; leaving it off changes the signature, and thus hides the method rather than overrides it.
