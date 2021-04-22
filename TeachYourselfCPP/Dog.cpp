@@ -1,45 +1,39 @@
-﻿// LISTING 11.7 Calling a Base Method from a Overridden Method
+﻿//Listing 11.8 Using virtual methods
 #include <iostream>
 using std::cout;
-
+// On line 11, Mammal is provided a virtual method: Speak(). The designer of this class thereby signals that she expects this class eventually to be another class’s base type.The derived class will probably want to override this function.
 class Mammal
 {
 public:
+	Mammal():itsAge(1) { cout << "Mammal constructor.\n"; }
+	virtual ~Mammal() { cout << "Mammal destructor.\n"; }
 	void Move() const { cout << "Mammal move one step.\n"; }
-	void Move(int distance) const
-	{
-		cout << "Mammal move " << distance << " steps.\n";
-	}
+	virtual void Speak() const { cout << "Mammal speak!.\n"; }
+	
 protected:
 	int itsAge;
-	int itsWeight;
 };
-
-
 
 class Dog : public Mammal
 {
 public:
-	void Move() const;
+	Dog() { cout << "Dog Constructor...\n"; }
+	virtual ~Dog() { cout << "Dog Destructor...\n"; }
+	void WagTail() { cout << "Wagging Tail...\n"; }
+	void Speak() const { cout << "Woof!...\n"; }
+	void Move() const { cout << "Dog moves 5 steps...\n"; }
 };
-
-void Dog::Move() const
-{
-	cout << "In dog move...\n";
-	Mammal::Move(3);
-}
-// On line 34, a Mammal, bigAnimal, is created, and on line 35, a Dog, Fido, is created. The method call on line 36 invokes the Move() method of Mammal, which takes an integer.
-// The programmer wanted to invoke Move(int) on the Dog object, but had a problem. Dog overrides the Move() method with no parameters, but does not overload the method that takes an integer—it does not provide a version that takes an integer.This is solved by the explicit call to the base class Move(int) method on line 37.
+// On line 29, a pointer to Mammal is created, pDog, but it is assigned the address of a new Dog object.Because a dog is a mammal, this is a legal assignment.The pointer is then used on line 30 to call the Move() function.Because the compiler knows pDog only to be a Mammal, it looks to the Mammal object to find the Move() method.On line 10, you can see that this is a standard, nonvirtual method, so the Mammal’s version is called.
+// On line 31, the pointer then calls the Speak() method.Because Speak() is virtual (see line 11), the Speak() method overridden in Dog is invoked.
 int main()
 {
-	Mammal bigAnimal;
-	Dog Fido;
-	bigAnimal.Move(2);
-	Fido.Mammal::Move(6);
-	Fido.Move(); // I added this line to test. See the last 2 lines of the output
+	Mammal* pDog = new Dog;
+	pDog->Move();
+	pDog->Speak();
+	
 	return 0;
 }/*
-Mammal move 2 steps.
-Mammal move 6 steps.
-In dog move...
-Mammal move 3 steps.*/
+Mammal constructor...
+Dog Constructor...
+Mammal move one step
+Woof!*/
