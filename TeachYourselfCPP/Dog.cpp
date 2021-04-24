@@ -1,15 +1,14 @@
-﻿//Listing 11.8 Using virtual methods
+﻿//Listing 11.9 Multiple virtual functions called in turn
 #include <iostream>
-using std::cout;
-// On line 11, Mammal is provided a virtual method: Speak(). The designer of this class thereby signals that she expects this class eventually to be another class’s base type.The derived class will probably want to override this function.
+using namespace std;
+// This stripped-down program, which provides only the barest functionality to each class,illustrates virtual functions in their purest form.Four classes are declared : Dog, Cat, Horse, and Pig.All four are derived from Mammal. On line 10, Mammal’s Speak() function is declared to be virtual.On lines 19, 25, 32, and 38, the four derived classes override the implementation of Speak().
 class Mammal
 {
 public:
-	Mammal():itsAge(1) { cout << "Mammal constructor.\n"; }
-	virtual ~Mammal() { cout << "Mammal destructor.\n"; }
-	void Move() const { cout << "Mammal move one step.\n"; }
-	virtual void Speak() const { cout << "Mammal speak!.\n"; }
-	
+	Mammal():itsAge(1){}
+	virtual ~Mammal() {}
+	virtual void Speak() const { cout << "Mammal speak!\n"; }
+
 protected:
 	int itsAge;
 };
@@ -17,23 +16,57 @@ protected:
 class Dog : public Mammal
 {
 public:
-	Dog() { cout << "Dog Constructor...\n"; }
-	virtual ~Dog() { cout << "Dog Destructor...\n"; }
-	void WagTail() { cout << "Wagging Tail...\n"; }
-	void Speak() const { cout << "Woof!...\n"; }
-	void Move() const { cout << "Dog moves 5 steps...\n"; }
+	void Speak() const { cout << "Woof!\n"; }
 };
-// On line 29, a pointer to Mammal is created, pDog, but it is assigned the address of a new Dog object.Because a dog is a mammal, this is a legal assignment.The pointer is then used on line 30 to call the Move() function.Because the compiler knows pDog only to be a Mammal, it looks to the Mammal object to find the Move() method.On line 10, you can see that this is a standard, nonvirtual method, so the Mammal’s version is called.
-// On line 31, the pointer then calls the Speak() method.Because Speak() is virtual (see line 11), the Speak() method overridden in Dog is invoked.
+
+class Cat : public Mammal
+{
+public:
+	void Speak() const { cout << "Meow!\n"; }
+};
+
+
+class Horse : public Mammal
+{
+public:
+	void Speak() const { cout << "Winnie!\n"; }
+};
+// On lines 46–64, the program loops five times. Each time, the user is prompted to pick which object to create, and a new pointer to that object type is added to the array from within the switch statement on lines 50–62.
+// At the time this program is compiled, it is impossible to know which object types will be created, and thus which Speak() methods will be invoked.The pointer ptr is bound to its object at runtime.This is called dynamic binding, as opposed to static binding, runtime binding, or compile - time binding.
+class Pig : public Mammal
+{
+public:
+	void Speak() const { cout << "Oink!\n"; }
+};
 int main()
 {
-	Mammal* pDog = new Dog;
-	pDog->Move();
-	pDog->Speak();
-	
+	Mammal* theArray[5];
+	Mammal* ptr;
+	int choice, i;
+	for (i=0; i<5; i++)
+	{
+		cout << "(1) dog (2)cat (3)horse (4)pig: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1: ptr = new Dog;
+			break;
+		case 2: ptr = new Cat;
+			break;
+		case 3: ptr = new Horse;
+			break;
+		case 4: ptr = new Pig;
+			break;
+		default: ptr = new Mammal;
+			break;	
+		}
+		theArray[i] = ptr;
+	}
+	for (i = 0; i < 5; i++)
+		theArray[i]->Speak();
 	return 0;
-}/*
-Mammal constructor...
-Dog Constructor...
-Mammal move one step
-Woof!*/
+}
+//On lines 65 and 66, the program loops through the array again. This time, each object in
+//the array has its Speak() method called.Because Speak() was virtual in the base class,
+//the appropriate Speak() methods are called for each type.You can see in the output that
+//if you choose each different type, that the corresponding method is indeed called.
