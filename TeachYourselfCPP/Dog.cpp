@@ -1,7 +1,7 @@
-﻿//Listing 11.9 Multiple virtual functions called in turn
+﻿//Listing 11.10 Data slicing with passing by value
 #include <iostream>
 using namespace std;
-// This stripped-down program, which provides only the barest functionality to each class,illustrates virtual functions in their purest form.Four classes are declared : Dog, Cat, Horse, and Pig.All four are derived from Mammal. On line 10, Mammal’s Speak() function is declared to be virtual.On lines 19, 25, 32, and 38, the four derived classes override the implementation of Speak().
+// On lines 5–26, stripped-down versions of the Mammal, Dog, and Cat classes are declared. Three functions are declared : PtrFunction(), RefFunction(), and ValueFunction(). They take a pointer to a Mammal, a Mammal reference, and a Mammal object, respectively. As you can see on lines 60–73, all three functions do the same thing—they call the Speak() method.
 class Mammal
 {
 public:
@@ -24,49 +24,66 @@ class Cat : public Mammal
 public:
 	void Speak() const { cout << "Meow!\n"; }
 };
-
-
-class Horse : public Mammal
-{
-public:
-	void Speak() const { cout << "Winnie!\n"; }
-};
-// On lines 46–64, the program loops five times. Each time, the user is prompted to pick which object to create, and a new pointer to that object type is added to the array from within the switch statement on lines 50–62.
-// At the time this program is compiled, it is impossible to know which object types will be created, and thus which Speak() methods will be invoked.The pointer ptr is bound to its object at runtime.This is called dynamic binding, as opposed to static binding, runtime binding, or compile - time binding.
-class Pig : public Mammal
-{
-public:
-	void Speak() const { cout << "Oink!\n"; }
-};
+// The user is prompted to choose a Dog or a Cat, and based on the choice that is made, a pointer to the correct type is created on lines 44 or 46. In the first line of the output, the user chooses Dog.The Dog object is created on the free store on line 44. The Dog is then passed to a function as a pointer on line 53, as a reference on line 54, and by value on line 55. The pointer and reference calls invoke the virtual functions, and the Dog->Speak() member function is invoked.This is shown on the first two lines of output after the user’s choice.
+void ValueFunction(Mammal);
+void PtrFunction(Mammal*);
+void RefFunction(Mammal&);
 int main()
 {
-	Mammal* theArray[5];
-	Mammal* ptr;
+	Mammal* ptr = 0;
 	int choice, i;
-	for (i=0; i<5; i++)
+	while (1)
 	{
-		cout << "(1) dog (2)cat (3)horse (4)pig: ";
+		bool fQuit = false;
+		cout << "(1) dog (2)cat (0)Quit: ";
 		cin >> choice;
 		switch (choice)
 		{
+		case 0: fQuit = true;
+			break;
 		case 1: ptr = new Dog;
 			break;
 		case 2: ptr = new Cat;
 			break;
-		case 3: ptr = new Horse;
-			break;
-		case 4: ptr = new Pig;
-			break;
 		default: ptr = new Mammal;
 			break;	
 		}
-		theArray[i] = ptr;
+		if (fQuit==true)
+			break;
+		PtrFunction(ptr);
+		RefFunction(*ptr);
+		ValueFunction(*ptr);
 	}
-	for (i = 0; i < 5; i++)
-		theArray[i]->Speak();
 	return 0;
 }
-//On lines 65 and 66, the program loops through the array again. This time, each object in
-//the array has its Speak() method called.Because Speak() was virtual in the base class,
-//the appropriate Speak() methods are called for each type.You can see in the output that
-//if you choose each different type, that the corresponding method is indeed called.
+// The dereferenced pointer, however, is passed by value on line 55 to the function on lines60–63.The function expects a Mammal object, and so the compiler slices down the Dog object to just the Mammal part.When the Mammal Speak() method is called on line 72, only Mammal information is available.The Dog pieces are gone.This is reflected in the third line of output after the user’s choice.This effect is called slicing because the Dog portions(your derived class portions) of your object were sliced off when converting to just a Mammal(the base class).This experiment is then repeated for the Cat object, with similar results.
+void ValueFunction(Mammal MammalValue)
+{
+	MammalValue.Speak();
+}
+
+void PtrFunction(Mammal* pMammal)
+{
+	pMammal->Speak();
+}
+
+void RefFunction(Mammal& rMammal)
+{
+	rMammal.Speak();
+}
+//(1)dog(2)cat(0)Quit: 1
+//Woof
+//Woof
+//Mammal Speak!
+//(1)dog(2)cat(0)Quit : 2
+//Meow!
+//Meow!
+//Mammal Speak!
+//(1)dog(2)cat(0)Quit : 0
+
+
+
+
+
+
+
