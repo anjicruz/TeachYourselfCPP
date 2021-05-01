@@ -1,24 +1,26 @@
-﻿// LISTING 12.1 Getting Horses to Fly with Single Inheritance
+﻿// LISTING 12.2 Casting Down Using RTTI
 
 #include <iostream>
 using namespace std;
+
+enum TYPE{HORSE, PEGASUS};
 
 class Horse
 {
 public:
 	void Gallop() { cout << "Galloping...\n"; }
-	virtual void Fly() { cout << "Horses can't fly.\n"; }
+	
 private:
 	int itsAge;
 };
-// This program certainly works, although at the expense of the Horse class having a Fly() method.On line 10, the method Fly() is provided to Horse. In a real - world class, you might have it issue an error or fail quietly. On line 18, the Pegasus class overrides the Fly() method to “do the right thing, ” represented here by printing a happy message.
+
 class Pegasus : public Horse
 {
 public:
 	void Fly()
 		{cout << "I can fly! I can fly! I can fly!\n";}
 };
-// The array of Horse pointers called Ranch on line 25 is used to demonstrate that the correct Fly() method is called, based on the runtime binding of the Horse or Pegasus object. In lines 28–37, the user is prompted to select a Horse or a Pegasus.An object of the corresponding type is then created and placed into the Ranch array.
+
 const int NumberHorses = 5;
 int main()
 {
@@ -38,13 +40,17 @@ int main()
 	cout << endl;
 	for (i = 0; i < NumberHorses; i++)
 	{
-		Ranch[i]->Fly();
+		Pegasus* pPeg = dynamic_cast<Pegasus*> (Ranch[i]);
+		if (pPeg != NULL)
+			pPeg->Fly();
+		else
+			cout << "Just a horse\n";
 		delete Ranch[i];
 	}
 	return 0;
-}  /*In lines 38–43, the program loops again through the Ranch array.This time, each object in the array has its Fly() method called. Depending on whether the object is a Horse or a Pegasus, the correct Fly() method is called.You can see this in the output.Because this program will no longer use the objects in Ranch, in line 42, a call to delete is made to free the memory used by each object.*/
+}/* Analysis ▼
+This solution also works; however, it is not recommended. The desired results are achieved.Fly() is kept out of Horseand it is not called on Horse objects.When it is called on Pegasus objects(line 45), however, the objects must be explicitly cast(line 43); Horse objects don’t have the method Fly(), so the pointer must be told it is pointing to a Pegasus object before being used. The need for you to cast the Pegasus object is a warning that something might be wrong with your design.This program effectively undermines the virtual function polymorphism because it depends on casting the object to its real runtime type.
 
-//These examples have been stripped down to their bare essentials
-//to illustrate the points under consideration. Constructors, virtual
-//destructors, and so on have been removed to keep the code simple.
-//This is not recommended for your programs.
+Error C2683: 'dynamic_cast': 'Horse' is not a polymorphic type (43)
+
+*/
