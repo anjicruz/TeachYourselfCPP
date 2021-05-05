@@ -1,56 +1,94 @@
-﻿// LISTING 12.2 Casting Down Using RTTI
-
+﻿// LISTING 12.4 Using Overloaded Base Class Constructors
+// Calling multiple constructor
 #include <iostream>
 using namespace std;
 
-enum TYPE{HORSE, PEGASUS};
-
+typedef int HANDS;
+enum COLOR{ Red, Green, Blue, Yellow, White, Black, Brown};
+// On lines 9–20, the Horse class is declared. The constructor takes two parameters: One is an enumeration for colors, which is declared on line 7, and the other is a typedef declared on line 6.
 class Horse
 {
 public:
-	void Gallop() { cout << "Galloping...\n"; }
-	
+	Horse(COLOR color, HANDS height);
+	virtual ~Horse() { cout << "Horse destructor...\n"; }
+	virtual void Whinny() const { cout << "Whinny!..."; }
+	virtual HANDS GetHeight() const { return itsHeight; }
+	virtual COLOR GetColor() const { return itsColor; }
 private:
-	int itsAge;
+	HANDS itsHeight;
+	COLOR itsColor;
 };
-
-class Pegasus : public Horse
+// The implementation of the constructor on lines 22–26 simply initializes the member variables and prints a message.
+Horse::Horse(COLOR color, HANDS height) :
+itsColor(color), itsHeight(height)
+{
+	cout << "Horse constructor...\n";
+}
+// On lines 28–44, the Bird class is declared, and the implementation of its constructor is on lines 46–50. Again, the Bird class takes two parameters.Interestingly, the Horse constructor takes color(so that you can detect horses of different colors), and the Bird constructor takes the color of the feathers(so that those of one feather can stick together). This leads to a problem when you want to ask the Pegasus for its color(which you’ll see in Listing 12.5).
+class Bird
 {
 public:
-	void Fly()
-		{cout << "I can fly! I can fly! I can fly!\n";}
+	Bird(COLOR color, bool migrates);
+	virtual ~Bird() { cout << "Bird destructor...\n"; }
+	virtual  void Chirp() { cout << "Chirp..."; }
+	virtual void Fly() const
+	{
+		cout << "I can Fly! I can Fly! I can Fly!";
+	}
+	virtual COLOR GetColor() const { return itsColor; }
+	virtual bool GetMigration() const { return itsMigration; }
+
+private:
+	COLOR itsColor;
+	bool itsMigration;
 };
 
-const int NumberHorses = 5;
+Bird::Bird(COLOR color, bool migrates) :
+itsColor(color), itsMigration(migrates)
+{
+	{ cout << "Bird constructor...\n"; }
+}
+// The Pegasus class itself is declared on lines 52–65, and its constructor is on lines 67–77. The initialization of the Pegasus object includes three statements.First, the Horse constructor initialized with colorand height(line 72).The Bird constructor is then initialized with colorand the Boolean indicating whether it migrates(line 73).Finally, the Pegasus member variable itsNumberBelievers is initialized.After all that is accomplished, the body of the Pegasus constructor is called.
+class Pegasus
+{
+public:
+	void Chirp() const { Whinny(); }
+	Pegasus(COLOR, HANDS, bool, long);
+	~Pegasus() { cout << "Pegasus destructor...\n"; }
+	virtual long GetNumberBelievers() const
+	{
+		return itsNumberBelievers;
+	}
+	
+private:
+	long itsNumberBelievers;
+};
+
+Pegasus::Pegasus(
+	COLOR aColor,
+	HANDS height,
+	bool migrates,
+	long NumBelieve):
+	Horse(aColor, height),
+	Bird(aColor, migrates),
+	itsNumberBelievers(NumBelieve)
+{
+	cout << "Pegasus constructor...\n";
+}
+// In the main() function, a Pegasus pointer is created in line 81. This object is then used to access the member functions that were derived from the base classes.The access of these methods is straightforward.
 int main()
 {
-	Horse* Ranch[NumberHorses];
-	Horse* pHorse;
-	int choice, i;
-	for(i=0; i<NumberHorses; i++)
-	{
-		cout << "(1)Horse (2)Pegasus: ";
-		cin >> choice;
-		if (choice == 2)
-			pHorse = new Pegasus;
-		else
-			pHorse = new Horse;
-		Ranch[i] = pHorse;
-	}
-	cout << endl;
-	for (i = 0; i < NumberHorses; i++)
-	{
-		Pegasus* pPeg = dynamic_cast<Pegasus*> (Ranch[i]);
-		if (pPeg != NULL)
-			pPeg->Fly();
-		else
-			cout << "Just a horse\n";
-		delete Ranch[i];
-	}
+	Pegasus* pPeg = new Pegasus(Red, 5, true, 10);
+	pPeg->Fly();
+	pPeg->Whinny();
+	cout << "\nYour Pegasus is" << pPeg->GetHeight();
+	cout << " hands tall and ";
+	if (pPeg->GetMigration())
+		cout << "it does migrate.";
+	else
+		cout << "it does not migrate.";
+	cout << "\nA total of " << pPeg->GetNumberBelievers();
+	cout << " people believe it still exist." << endl;
+	delete pPeg;
 	return 0;
-}/* Analysis ▼
-This solution also works; however, it is not recommended. The desired results are achieved.Fly() is kept out of Horseand it is not called on Horse objects.When it is called on Pegasus objects(line 45), however, the objects must be explicitly cast(line 43); Horse objects don’t have the method Fly(), so the pointer must be told it is pointing to a Pegasus object before being used. The need for you to cast the Pegasus object is a warning that something might be wrong with your design.This program effectively undermines the virtual function polymorphism because it depends on casting the object to its real runtime type.
-
-Error C2683: 'dynamic_cast': 'Horse' is not a polymorphic type (43)
-
-*/
+}
