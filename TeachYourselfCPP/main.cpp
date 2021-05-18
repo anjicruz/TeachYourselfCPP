@@ -1,84 +1,94 @@
-﻿// Listing 12.3. Multiple inheritance.
+﻿// LISTING 12.4 Using Overloaded Base Class Constructors
+// Calling multiple constructors
 #include <iostream>
-using std::cout;
-using std::cin;
-using std::endl;
+using namespace std;
+
+typedef int HANDS;
+enum COLOR { Red, Green, Blue, Yellow, White, Black, Brown };
 
 class Horse
 {
 public:
-	Horse() { cout << "Horse constructor... "; }
+	Horse(COLOR color, HANDS height);
 	virtual ~Horse() { cout << "Horse destructor... "; }
 	virtual void Whinny() const { cout << "Whinny!... "; }
+	virtual HANDS GetHeight() const { return itsHeight; }
+	virtual COLOR GetColor() const { return  itsColor; }
 private:
-	int itsAge;
+	HANDS itsHeight;
+	COLOR itsColor;
 };
+
+Horse::Horse(COLOR color, HANDS height):
+itsColor(color),itsHeight(height)
+{
+	cout << "Horse constructor...\n";
+}
 
 class Bird
 {
 public:
-	Bird() { cout << "Bird constructor..."; }
+	Bird(COLOR color, bool migrates);
 	virtual ~Bird() { cout << "Bird destructor..."; }
 	virtual void Chirp() const { cout << "Chirp..."; }
 	virtual void Fly() const
 	{
-		cout << "I can fly! I can fly! I can fly!";
+		cout << "I can fly! I can fly! I can fly! ";
 	}
+	virtual COLOR GetColor() const { return itsColor; }
+	virtual bool GetMigration() const { return itsMigration; }
+	
 private:
-	int itsWeight;
+	COLOR itsColor;
+	bool itsMigration;
 };
+
+Bird::Bird(COLOR color, bool migrates):
+itsColor(color), itsMigration(migrates)
+{
+	cout << "Bird constructor...\n";
+}
 
 class Pegasus : public Horse, public Bird
 {
 public:
 	void Chirp() const { Whinny(); }
-	Pegasus() { cout << "Pegasus constructor..."; }
+	Pegasus(COLOR, HANDS, bool, long);
 	~Pegasus() { cout << "Pegasus destructor..."; }
+	virtual long GetNumberBelievers() const
+	{
+		return itsNumberBelievers;
+	}
+
+private:
+	long itsNumberBelievers;
 };
 
-const int MagicNumber = 2;
+Pegasus::Pegasus(
+	COLOR aColor,
+	HANDS height,
+	bool migrates,
+	long NumBelieve):
+	Horse(aColor, height),
+	Bird(aColor, migrates),
+	itsNumberBelievers(NumBelieve)
+{
+	cout << "Pegasus constructor...\n";
+}
+
 int main()
 {
-	Horse* Ranch[MagicNumber];
-	Bird* Aviary[MagicNumber];
-	Horse * pHorse;
-	Bird * pBird;
-	int choice, i;
-	for (i=0; i<MagicNumber; i++)
-	{
-		cout << "\n(1)Horse (2)Pegasus: ";
-		cin >> choice;
-		if (choice == 2)
-			pHorse = new Pegasus;
-		else
-			pHorse = new Horse;
-		Ranch[i] = pHorse;
-	}
-	for (i = 0; i < MagicNumber; i++)
-	{
-		cout << "\n(1)Bird (2)Pegasus: ";
-		cin >> choice;
-		if (choice == 2)
-			pBird = new Pegasus;
-		else
-			pBird = new Bird;
-		Aviary[i] = pBird;
-	}
-
-	cout << endl;
-	for (i = 0; i < MagicNumber; i++)
-	{
-		cout << "\nRanch[" << i << "]: "  ;
-		Ranch[i]->Whinny();
-		delete Ranch[i];
-	}
-
-	for (i = 0; i < MagicNumber; i++)
-	{
-		cout << "\nAviary[" << i << "]: "  ;
-		Aviary[i]->Chirp();
-		Aviary[i]->Fly();
-		delete Aviary[i];
-	}
+	Pegasus* pPeg = new Pegasus(Red, 5, true, 10);
+	pPeg->Fly();
+	pPeg->Whinny();
+	cout << "\nYour Pegasus is " << pPeg->GetHeight();
+	cout << " hands tall and ";
+	if (pPeg->GetMigration())
+		cout << "it does migrate.";
+	else
+		cout << "it does not migrate.";
+	cout << "\nA total of " << pPeg->GetNumberBelievers();
+	cout << " people believe it exists." << endl;
+	delete pPeg;
 	return 0;
 }
