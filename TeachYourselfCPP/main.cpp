@@ -1,5 +1,4 @@
-﻿// LISTING 12.5 Resolving Ambiguity in Case of Multiple Inheritance Involving Common Base Classes
-
+﻿// LISTING 12.6 Illustration of the Use of Virtual Inheritance
 #include <iostream>
 using namespace std;
 
@@ -23,7 +22,7 @@ Animal::Animal(int age) :
 	cout << "Animal constructor...\n";
 }
 
-class Horse : public Animal
+class Horse : virtual public Animal
 {
 public:
 	Horse(COLOR color, HANDS height, int age);
@@ -43,7 +42,7 @@ itsColor(color),itsHeight(height)
 	cout << "Horse constructor...\n";
 }
 
-class Bird : public Animal
+class Bird : virtual public Animal
 {
 public:
 	Bird(COLOR color, bool migrates, int age);
@@ -87,6 +86,7 @@ Pegasus::Pegasus(
 	int age):
 	Horse(aColor, height, age),
 	Bird(aColor, migrates,age),
+	Animal(age*2),
 	itsNumberBelievers(NumBelieve)
 {
 	cout << "Pegasus constructor...\n";
