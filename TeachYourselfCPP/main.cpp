@@ -1,8 +1,6 @@
-﻿// LISTING 12.8 Abstract Classes
+﻿// Listing 12.9 Implementing pure virtual functions
 #include <iostream>
-using std::cout;
-using std::cin;
-using std::endl;
+using namespace std;
 
 class Shape
 {
@@ -15,13 +13,18 @@ public:
 private:
 };
 
+void Shape::Draw()
+{
+	cout << "Abstract drawing mechanism!\n";
+}
+
 class Circle : public Shape
 {
 public:
 	Circle(int radius):itsRadius(radius) {}
 	~Circle() {}
-	double GetArea() { return 3 * itsRadius * itsRadius; }
-	double GetPerim() { return 6 * itsRadius; }
+	double GetArea() { return 3.14 * itsRadius * itsRadius; }
+	double GetPerim() { return 2 * 3.14 * itsRadius; }
 	void Draw();
 private:
 	int itsRadius;
