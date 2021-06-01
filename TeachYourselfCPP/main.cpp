@@ -1,102 +1,117 @@
-﻿// LISTING 12.6 Illustration of the Use of Virtual Inheritance
+﻿// LISTING 12.8 Abstract Classes
 #include <iostream>
-using namespace std;
+using std::cout;
+using std::cin;
+using std::endl;
 
-typedef int HANDS;
-enum COLOR { Red, Green, Blue, Yellow, White, Black, Brown };
-
-class Animal
+class Shape
 {
 public:
-	Animal(int);
-	virtual ~Animal() { cout << "Animal destructor...\n"; }
-	virtual int GetAge() const { return itsAge; }
-	virtual void SetAge(int age) { itsAge = age; }
+	Shape(){}
+	~Shape(){}
+	virtual double GetArea() = 0;
+	virtual double GetPerim() = 0;
+	virtual void Draw() = 0;
 private:
-	int itsAge;
 };
 
-Animal::Animal(int age) :
-	itsAge(age)
-{
-	cout << "Animal constructor...\n";
-}
-
-class Horse : virtual public Animal
+class Circle : public Shape
 {
 public:
-	Horse(COLOR color, HANDS height, int age);
-	virtual ~Horse() { cout << "Horse destructor... "; }
-	virtual void Whinny() const { cout << "Whinny!... "; }
-	virtual HANDS GetHeight() const { return itsHeight; }
-	virtual COLOR GetColor() const { return  itsColor; }
-protected:
-	HANDS itsHeight;
-	COLOR itsColor;
-};
-
-Horse::Horse(COLOR color, HANDS height, int age):
-	Animal(age),
-itsColor(color),itsHeight(height)
-{
-	cout << "Horse constructor...\n";
-}
-
-class Bird : virtual public Animal
-{
-public:
-	Bird(COLOR color, bool migrates, int age);
-	virtual ~Bird() { cout << "Bird destructor..."; }
-	virtual void Chirp() const { cout << "Chirp..."; }
-	virtual void Fly() const
-	{ cout << "I can fly! I can fly! I can fly! "; }
-	virtual COLOR GetColor() const { return itsColor; }
-	virtual bool GetMigration() const { return itsMigration; }
-protected:
-	COLOR itsColor;
-	bool itsMigration;
-};
-
-Bird::Bird(COLOR color, bool migrates, int age):
-	Animal(age),
-itsColor(color), itsMigration(migrates)
-{
-	cout << "Bird constructor...\n";
-}
-
-class Pegasus : public Horse, public Bird
-{
-public:
-	void Chirp() const { Whinny(); }
-	Pegasus(COLOR, HANDS, bool, long, int);
-	virtual ~Pegasus() { cout << "Pegasus destructor..."; }
-	virtual long GetNumberBelievers() const
-	{ return itsNumberBelievers; }
-	virtual COLOR GetColor() const { return Horse::itsColor; }
-	virtual int GetAge() const { return Horse::GetAge(); }
+	Circle(int radius):itsRadius(radius) {}
+	~Circle() {}
+	double GetArea() { return 3 * itsRadius * itsRadius; }
+	double GetPerim() { return 6 * itsRadius; }
+	void Draw();
 private:
-	long itsNumberBelievers;
+	int itsRadius;
+	int itsCircumference;
 };
 
-Pegasus::Pegasus(
-	COLOR aColor,
-	HANDS height,
-	bool migrates,
-	long NumBelieve,
-	int age):
-	Horse(aColor, height, age),
-	Bird(aColor, migrates,age),
-	Animal(age*2),
-	itsNumberBelievers(NumBelieve)
+void Circle::Draw()
 {
-	cout << "Pegasus constructor...\n";
+	cout << "Circle drawing routine here!\n";
+}
+
+
+class Rectangle : public Shape
+{
+public:
+	Rectangle(int len, int width):
+		itsLength(len), itsWidth(width){}
+	virtual ~Rectangle(){}
+	virtual double GetArea() { return itsLength * itsWidth; }
+	virtual double GetPerim() { return 2*itsLength * 2*itsWidth; }
+	virtual int GetLength() { return itsLength; }
+	virtual int GetWidth() { return itsWidth; }
+	virtual void Draw();
+private:
+	int itsWidth;
+	int itsLength;
+};
+
+void Rectangle::Draw()
+{
+	for (int i = 0; i < itsLength; i++)
+	{
+		for (int j = 0; j < itsWidth; j++)
+			cout << "x";
+
+		cout << "\n";
+	}
+}
+
+class Square : public Rectangle
+{
+public:
+	Square(int len);
+	Square(int len, int width);
+	~Square(){}
+	double GetPerim() { return 4 * GetLength(); }
+};
+
+Square::Square(int len):
+	Rectangle(len,len)
+	{}
+
+Square::Square(int len, int width) :
+	Rectangle(len, width)
+{
+	if (GetLength() != GetWidth())
+		cout << "Error, not a square...a Rectangle??\n";
 }
 
 int main()
 {
-	Pegasus* pPeg = new Pegasus (Red, 5, true, 10, 2);
-	int age = pPeg->GetAge();
-	cout << "This pegasus is " << age << " years old.\n";
-	delete pPeg;
+	int choice;
+	bool fQuit = false;
+	Shape * sp = nullptr;
+
+	while (!fQuit)
+	{
+		cout << "(1) Circle (2)Rectangle (3)Square (0)Quit ";
+		cin >> choice;
+
+		switch (choice)
+		{
+		case 0: fQuit = true;
+			break;
+		case 1: sp = new Circle(5);
+			break;
+		case 2: sp = new Rectangle(4, 6);
+			break;
+		case 3: sp = new Square(5);
+			break;
+		default:
+			cout << "Please enter a number between 0 and 3" << endl;
+			continue;
+			break;
+		}
+		if (!fQuit)
+			sp->Draw();
+		delete sp;
+		sp = 0;
+		cout << endl;
+	}
 	return 0;
 }
