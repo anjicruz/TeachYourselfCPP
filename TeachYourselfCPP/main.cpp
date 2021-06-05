@@ -1,120 +1,124 @@
-﻿// Listing 12.9 Implementing pure virtual functions
+﻿// LISTING 12.10 Deriving Abstract Classes from Other Abstract Classes
 #include <iostream>
 using namespace std;
 
-class Shape
+enum COLOR { Red, Green, Blue, Yellow, White, Black, Brown };
+
+class Animal
 {
 public:
-	Shape(){}
-	~Shape(){}
-	virtual double GetArea() = 0;
-	virtual double GetPerim() = 0;
-	virtual void Draw() = 0;
+	Animal(int);
+	virtual ~Animal() { cout << "Animal destructor...\n"; }
+	virtual int GetAge() const { return itsAge; }
+	virtual void SetAge(int age) { itsAge = age; }
+	virtual void Sleep() const = 0;
+	virtual void Eat() const = 0;
+	virtual void Reproduce() const = 0;
+	virtual void Move() const = 0;
+	virtual void Speak() const = 0;
 private:
+	int itsAge;
 };
 
-void Shape::Draw()
+Animal::Animal(int age):
+itsAge(age)
 {
-	cout << "Abstract drawing mechanism!\n";
+	cout << "Animal constructor...\n";
 }
 
-class Circle : public Shape
+class Mammal :public Animal
 {
 public:
-	Circle(int radius):itsRadius(radius) {}
-	~Circle() {}
-	double GetArea() { return 3.14 * itsRadius * itsRadius; }
-	double GetPerim() { return 2 * 3.14 * itsRadius; }
-	void Draw();
-private:
-	int itsRadius;
-	int itsCircumference;
+	Mammal(int age):Animal(age)
+		{ cout << "Mammal constructor...\n"; }
+	virtual ~Mammal() { cout << "Mammal destructor...\n"; }
+	virtual void Reproduce() const
+	{ cout << "Mammal reproduction depicted...\n"; }
 };
 
-void Circle::Draw()
-{
-	cout << "Circle drawing routine here!\n";
-}
-
-
-class Rectangle : public Shape
+class Fish :public Animal
 {
 public:
-	Rectangle(int len, int width):
-		itsLength(len), itsWidth(width){}
-	virtual ~Rectangle(){}
-	virtual double GetArea() { return itsLength * itsWidth; }
-	virtual double GetPerim() { return 2*itsLength * 2*itsWidth; }
-	virtual int GetLength() { return itsLength; }
-	virtual int GetWidth() { return itsWidth; }
-	virtual void Draw();
-private:
-	int itsWidth;
-	int itsLength;
+	Fish(int age):Animal(age)
+	{ cout << "Fish constructor...\n"; }
+	virtual ~Fish() { cout << "Fish destructor...\n"; }
+	virtual void Sleep() const { cout << "fish snoring...\n"; }
+	virtual void Eat() const { cout << "fish feeding...\n"; }
+	virtual void Reproduce() const 
+		{ cout << "fish laying eggs...\n"; }
+	virtual void Move() const 
+		{ cout << "fish swimming...\n"; }
+	virtual void Speak() const { }
 };
 
-void Rectangle::Draw()
-{
-	for (int i = 0; i < itsLength; i++)
-	{
-		for (int j = 0; j < itsWidth; j++)
-			cout << "x";
-
-		cout << "\n";
-	}
-}
-
-class Square : public Rectangle
+class Horse :public Mammal
 {
 public:
-	Square(int len);
-	Square(int len, int width);
-	~Square(){}
-	double GetPerim() { return 4 * GetLength(); }
+	Horse(int age, COLOR color):
+	Mammal(age), itsColor(color)
+	{ cout << "Horse constructor...\n"; }
+	virtual ~Horse() { cout << "Horse destructor...\n"; }
+	virtual void Speak() const { cout << "Whinny...\n"; }
+	virtual COLOR GetItsColor() const { return itsColor; }
+	virtual void Sleep() const 
+		{ cout << "Horse Snoring...\n"; }
+	virtual void Eat() const { cout << "Horse feeding...\n"; }
+	virtual void Move() const { cout << "Horse running...\n"; }
+
+protected:
+	COLOR itsColor;
 };
 
-Square::Square(int len):
-	Rectangle(len,len)
-	{}
-
-Square::Square(int len, int width) :
-	Rectangle(len, width)
+class Dog :public Mammal
 {
-	if (GetLength() != GetWidth())
-		cout << "Error, not a square...a Rectangle??\n";
-}
+public:
+	Dog(int age,COLOR color):
+	Mammal(age), itsColor(color)
+		{ cout << "Dog constructor...\n"; }
+	virtual ~Dog() { cout << "Dog destructor...\n"; }
+	virtual void Speak() const { cout << "Whoof...\n"; }
+	virtual void Sleep() const { cout << "Dog snoring...\n"; }
+	virtual void Eat() const { cout << "Dog eating...\n"; }
+	virtual void Move() const { cout << "Dog running...\n"; }
+	virtual void Reproduce() const 
+		{ cout << "Dog reproducing...\n"; }
+
+protected:
+	COLOR itsColor;
+};
 
 int main()
 {
+	Animal* pAnimal = 0;
 	int choice;
 	bool fQuit = false;
-	Shape * sp = nullptr;
 
-	while (!fQuit)
+	while (fQuit == false)
 	{
-		cout << "(1) Circle (2)Rectangle (3)Square (0)Quit ";
+		cout << "(1)Dog(2)Horse(3)Fish(0)Quit: ";
 		cin >> choice;
 
 		switch (choice)
 		{
-		case 0: fQuit = true;
+		case 1: pAnimal = new Dog(5, Brown);
 			break;
-		case 1: sp = new Circle(5);
+		case 2: pAnimal = new Horse(4,Black);
 			break;
-		case 2: sp = new Rectangle(4, 6);
+		case 3: pAnimal = new Fish(5);
 			break;
-		case 3: sp = new Square(5);
-			break;
-		default:
-			cout << "Please enter a number between 0 and 3" << endl;
-			continue;
+		default: fQuit = true;
 			break;
 		}
-		if (!fQuit)
-			sp->Draw();
-		delete sp;
-		sp = 0;
-		cout << endl;
+		if (fQuit == false)
+		{
+			pAnimal->Speak();
+			pAnimal->Eat(); 
+			pAnimal->Reproduce();
+			pAnimal->Move();
+			pAnimal->Sleep();
+			delete pAnimal;
+			cout << endl;
+		}
 	}
 	return 0;
 }
