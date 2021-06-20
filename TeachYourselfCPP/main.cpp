@@ -1,124 +1,87 @@
-﻿// LISTING 12.10 Deriving Abstract Classes from Other Abstract Classes
+﻿// LISTING 13.1 A Calendar Class That Handles Day, Month and Year, and Allows Increments in Days
 #include <iostream>
-using namespace std;
-
-enum COLOR { Red, Green, Blue, Yellow, White, Black, Brown };
-
-class Animal
+class CDate
 {
-public:
-	Animal(int);
-	virtual ~Animal() { cout << "Animal destructor...\n"; }
-	virtual int GetAge() const { return itsAge; }
-	virtual void SetAge(int age) { itsAge = age; }
-	virtual void Sleep() const = 0;
-	virtual void Eat() const = 0;
-	virtual void Reproduce() const = 0;
-	virtual void Move() const = 0;
-	virtual void Speak() const = 0;
 private:
-	int itsAge;
-};
+	int m_nDay; // range 1-30
+	int m_nMonth; // range 1-12
+	int m_nYear;
 
-Animal::Animal(int age):
-itsAge(age)
-{
-	cout << "Animal constructor...\n";
-}
+	void AddDays(int nDaysToAdd)
+	{
+		m_nDay += nDaysToAdd;
 
-class Mammal :public Animal
-{
+		{
+			if (m_nDay > 30)
+				AddMonths(m_nDay / 30);
+			m_nDay %= 30;
+		}
+	}
+
+
+	void AddMonths(int nMonthsToAdd)
+	{
+		m_nMonth += nMonthsToAdd;
+
+		if (m_nMonth > 12)
+		{
+			AddYears(m_nMonth / 12);
+
+			m_nMonth %= 12;  // rollover dec -> jan
+		}
+	}
+
+	void AddYears(int m_nYearsToAdd)
+	{
+		m_nYear += m_nYearsToAdd;
+	}
+
 public:
-	Mammal(int age):Animal(age)
-		{ cout << "Mammal constructor...\n"; }
-	virtual ~Mammal() { cout << "Mammal destructor...\n"; }
-	virtual void Reproduce() const
-	{ cout << "Mammal reproduction depicted...\n"; }
-};
 
-class Fish :public Animal
-{
-public:
-	Fish(int age):Animal(age)
-	{ cout << "Fish constructor...\n"; }
-	virtual ~Fish() { cout << "Fish destructor...\n"; }
-	virtual void Sleep() const { cout << "fish snoring...\n"; }
-	virtual void Eat() const { cout << "fish feeding...\n"; }
-	virtual void Reproduce() const 
-		{ cout << "fish laying eggs...\n"; }
-	virtual void Move() const 
-		{ cout << "fish swimming...\n"; }
-	virtual void Speak() const { }
-};
+	// constructor that initializes the object to a day, month and year
+	CDate(int nDay, int nMonth, int nYear)
+		: m_nDay(nDay), m_nMonth(nMonth), m_nYear(nYear) {};
 
-class Horse :public Mammal
-{
-public:
-	Horse(int age, COLOR color):
-	Mammal(age), itsColor(color)
-	{ cout << "Horse constructor...\n"; }
-	virtual ~Horse() { cout << "Horse destructor...\n"; }
-	virtual void Speak() const { cout << "Whinny...\n"; }
-	virtual COLOR GetItsColor() const { return itsColor; }
-	virtual void Sleep() const 
-		{ cout << "Horse Snoring...\n"; }
-	virtual void Eat() const { cout << "Horse feeding...\n"; }
-	virtual void Move() const { cout << "Horse running...\n"; }
+	// unary increment operator(prefix)
+	CDate& operator ++ ()
+	{
+		AddDays(1);
+		return *this;
+	}
 
-protected:
-	COLOR itsColor;
-};
+	// postfix 
+	CDate operator ++ (int)
+	{
 
-class Dog :public Mammal
-{
-public:
-	Dog(int age,COLOR color):
-	Mammal(age), itsColor(color)
-		{ cout << "Dog constructor...\n"; }
-	virtual ~Dog() { cout << "Dog destructor...\n"; }
-	virtual void Speak() const { cout << "Whoof...\n"; }
-	virtual void Sleep() const { cout << "Dog snoring...\n"; }
-	virtual void Eat() const { cout << "Dog eating...\n"; }
-	virtual void Move() const { cout << "Dog running...\n"; }
-	virtual void Reproduce() const 
-		{ cout << "Dog reproducing...\n"; }
+		CDate mReturnDate(m_nDay, m_nMonth, m_nYear);
 
-protected:
-	COLOR itsColor;
+		AddDays(1);
+		// IncrementDay();
+
+		return mReturnDate;
+	}
+
+	void DisplayDate()
+	{
+		std::cout << m_nDay << " / " << m_nMonth << " / " << m_nYear;
+	}
 };
 
 int main()
 {
-	Animal* pAnimal = 0;
-	int choice;
-	bool fQuit = false;
 
-	while (fQuit == false)
-	{
-		cout << "(1)Dog(2)Horse(3)Fish(0)Quit: ";
-		cin >> choice;
+	CDate mDate(25, 6, 2008);
 
-		switch (choice)
-		{
-		case 1: pAnimal = new Dog(5, Brown);
-			break;
-		case 2: pAnimal = new Horse(4,Black);
-			break;
-		case 3: pAnimal = new Fish(5);
-			break;
-		default: fQuit = true;
-			break;
-		}
-		if (fQuit == false)
-		{
-			pAnimal->Speak();
-			pAnimal->Eat(); 
-			pAnimal->Reproduce();
-			pAnimal->Move();
-			pAnimal->Sleep();
-			delete pAnimal;
-			cout << endl;
-		}
-	}
+	std::cout << "The date object is initialized to: ";
+
+	mDate.DisplayDate();
+	std::cout << std::endl;
+
+	++mDate;
+
+	std::cout << "Date after prefix increment is: ";
+
+	mDate.DisplayDate();
+	std::cout << std::endl;
 	return 0;
 }
