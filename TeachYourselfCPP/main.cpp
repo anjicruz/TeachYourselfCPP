@@ -1,24 +1,29 @@
-﻿// LISTING 10.2 A Class with Accessor Methods
+﻿// LISTING 10.3 Implementing the Methods of a Simple Class
 #include <iostream>
 
 class Cat {
 public:
-    // public accessors
-    unsigned int GetAge();
-    void SetAge(unsigned int Age);
-
-    unsigned int GetWeight();
-    void SetWeight(unsigned int Weight);
-
-    // public member function
+    int GetAge();
+    void SetAge(int age);
     void Meow();
 private:
-    unsigned int itsAge;
-    unsigned int itsWeight;
+    int itsAge;
 };
-//int main()
-//{
-//    Cat Frisky;
-//    Frisky.Age = 8;
-//    return 0;
-//}
+int Cat::GetAge() {
+    return itsAge;
+}
+void Cat::SetAge(int age) {
+    itsAge = age;
+}
+void Cat::Meow() {
+    std::cout << "Meow.\n";
+}
+int main()
+{
+    Cat Frisky;
+    Frisky.SetAge(5);
+    Frisky.Meow();
+    std::cout << "Frisky is a cat who is " << Frisky.GetAge() << " years old.\n";
+    Frisky.Meow();
+    return 0;
+}
