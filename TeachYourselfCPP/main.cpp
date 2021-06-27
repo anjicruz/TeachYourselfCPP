@@ -1,28 +1,8 @@
-﻿// LISTING 10.4 Using Constructors and Destructors
-#include <iostream>
-
-class Cat {
-public:
-    Cat(int initialAge); // constructor
-    ~Cat(); // destructor
-    int GetAge(); // accessor function
-    void SetAge(int age); // accessor function
-    void Meow();
-private:
-    int itsAge;
-};
+﻿#include "Cat.h"
 
 Cat::Cat(int initialAge) { itsAge = initialAge; } // constructor
 Cat::~Cat () {} // destructor
-int Cat::GetAge() {
-    return itsAge;
-}
-void Cat::SetAge(int age) {
-    itsAge = age;
-}
-void Cat::Meow() {
-    std::cout << "Meow.\n";
-}
+
 int main()
 {
     Cat Frisky(5);
