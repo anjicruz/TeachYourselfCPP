@@ -1,4 +1,4 @@
-﻿// LISTING 11.6 Hiding Methods
+﻿//Listing 11.7 Calling a base method from a overridden method.
 #include <iostream>
 using std::cout;
 
@@ -8,7 +8,7 @@ public:
 	void Move() const { cout << "Mammal move one step.\n"; }
 	void Move(int distance) const
 	{
-		cout << "Mammal move";
+		cout << "Mammal move ";
 		cout << distance << " steps.\n";
 	}
 protected:
@@ -20,16 +20,22 @@ class Dog :public Mammal
 {
 public:
 	// You might receive a warning that you are hiding a function
-	void Move() const { cout << "Dog move 5 steps.\n";}
+	void Move() const;
 };
+
+void Dog::Move() const
+{
+	cout << "In dog move...\n";
+	Mammal::Move(3);
+}
 
 int main() {
 	Mammal bigAnimal;
 	Dog Fido;
+	Fido.Move();
 	bigAnimal.Move();
 	bigAnimal.Move(2);
-	Fido.Move();
-	// Fido.Move(10);
+	Fido.Mammal::Move(6);
 
 	return 0;
 }
