@@ -1,4 +1,4 @@
-﻿// LISTING 11.4 Overloading Constructors in Derived Classes
+﻿// LISTING 11.6 Hiding Methods
 #include <iostream>
 using std::cout;
 
