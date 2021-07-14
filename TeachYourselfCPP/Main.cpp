@@ -5,37 +5,30 @@ using std::cout;
 class Mammal
 {
 public:
+	Mammal() :itsAge(1) { cout << "Mammal constructor...\n"; }
+	virtual ~Mammal() { cout << "Mammal destructor...\n"; }
 	void Move() const { cout << "Mammal move one step.\n"; }
-	void Move(int distance) const
-	{
-		cout << "Mammal move ";
-		cout << distance << " steps.\n";
-	}
+	virtual void Speak() const { cout << "Mammal Speak!\n"; }
+	
 protected:
 	int itsAge;
-	int itsWeight;
 };
 
 class Dog :public Mammal
 {
 public:
-	// You might receive a warning that you are hiding a function
-	void Move() const;
+	Dog() { cout << "Dog constructor...\n"; }
+	virtual ~Dog() { cout << "Dog destructor...\n"; }
+	void WagTail() { cout << "Wagging Tail...\n"; }
+	void Speak() const { cout << "Woof!\n"; }
+	void Move() const { cout << "Dog moves 5 steps...\n"; }
 };
 
-void Dog::Move() const
-{
-	cout << "In dog move...\n";
-	Mammal::Move(3);
-}
 
 int main() {
-	Mammal bigAnimal;
-	Dog Fido;
-	Fido.Move();
-	bigAnimal.Move();
-	bigAnimal.Move(2);
-	Fido.Mammal::Move(6);
+	Mammal* pDog = new Dog;
+	pDog->Move();
+	pDog->Speak();
 
 	return 0;
 }
