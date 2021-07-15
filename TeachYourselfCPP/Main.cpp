@@ -1,13 +1,12 @@
 ﻿//Listing 11.7 Calling a base method from a overridden method.
 #include <iostream>
-using std::cout;
+using namespace std;
 
 class Mammal
 {
 public:
-	Mammal() :itsAge(1) { cout << "Mammal constructor...\n"; }
-	virtual ~Mammal() { cout << "Mammal destructor...\n"; }
-	void Move() const { cout << "Mammal move one step.\n"; }
+	Mammal() :itsAge(1) {  }
+	virtual ~Mammal() { }
 	virtual void Speak() const { cout << "Mammal Speak!\n"; }
 	
 protected:
@@ -17,18 +16,53 @@ protected:
 class Dog :public Mammal
 {
 public:
-	Dog() { cout << "Dog constructor...\n"; }
-	virtual ~Dog() { cout << "Dog destructor...\n"; }
-	void WagTail() { cout << "Wagging Tail...\n"; }
 	void Speak() const { cout << "Woof!\n"; }
-	void Move() const { cout << "Dog moves 5 steps...\n"; }
+};
+
+class Cat :public Mammal
+{
+public:
+	void Speak() const { cout << "Meow!\n"; }
 };
 
 
+class Horse :public Mammal
+{
+public:
+	void Speak() const { cout << "Winnie!\n"; }
+};
+
+class Pig :public Mammal
+{
+public:
+	void Speak() const { cout << "Oink!\n"; }
+};
+
 int main() {
-	Mammal* pDog = new Dog;
-	pDog->Move();
-	pDog->Speak();
+	Mammal* theArray[5];
+	Mammal* ptr;
+	int choice, i;
+	for (i = 0; i < 5; i++)
+	{
+		cout << "(1)dog (2)cat (3)horse (4)pig: ";
+		cin >> choice;
+		switch (choice)
+		{
+		case 1:ptr = new Dog;
+			break;
+		case 2:ptr = new Cat;
+			break;
+		case 3:ptr = new Horse;
+			break;
+		case 4:ptr = new Pig;
+			break;
+		default: ptr = new Mammal;
+			break;
+		}
+		theArray[i] = ptr;
+	}
+	for (i = 0; i < 5; i++)
+		theArray[i]->Speak()
 
 	return 0;
 }
